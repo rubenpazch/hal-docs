@@ -54,6 +54,10 @@ jobs:
           RAILS_MASTER_KEY:      ${{ secrets.RAILS_MASTER_KEY }}
           DEVISE_JWT_SECRET_KEY: "ci-test-jwt-secret-not-used-in-production-000000000000"
           SECRET_KEY_BASE:       "ci-test-secret-key-base-not-used-in-production-0000000000000000000"
+          # ActiveRecord::Encryption reads these env vars before falling back to credentials.
+          ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY:       "ci-test-ar-primary-key-not-for-production-00000000"
+          ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY: "ci-test-ar-deterministic-key-not-for-production-00"
+          ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT: "ci-test-ar-key-derivation-salt-not-for-production"
         run: bundle exec rspec --format progress
 
   # ── Test: Frontend ───────────────────────────────────────────────────────────
