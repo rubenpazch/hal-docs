@@ -106,7 +106,7 @@ jobs:
 
       - name: Build and push API image
         id: build-api
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context:     .
           push:        true
@@ -119,7 +119,7 @@ jobs:
 
       - name: Build and push frontend image
         id: build-frontend
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context:     ./frontend
           push:        true
