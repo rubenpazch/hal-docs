@@ -76,9 +76,13 @@ jobs:
 
       - name: Run RSpec
         env:
-          DATABASE_URL:     postgresql://hal_docs:password@localhost/hal_docs_test
-          RAILS_ENV:        test
-          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+          DATABASE_URL:          postgresql://hal_docs:password@localhost/hal_docs_test
+          RAILS_ENV:             test
+          RAILS_MASTER_KEY:      ${{ secrets.RAILS_MASTER_KEY }}
+          # Provide a dummy JWT secret so the devise initializer never tries to
+          # decrypt credentials.yml.enc (which would fail without a valid master key).
+          DEVISE_JWT_SECRET_KEY: "ci-test-jwt-secret-not-used-in-production-000000000000"
+          SECRET_KEY_BASE:       "ci-test-secret-key-base-not-used-in-production-0000000000000000000"
         run: bundle exec rspec --format progress
 
   # ── Frontend: lint + type-check + Vitest ──────────────────────────────────────

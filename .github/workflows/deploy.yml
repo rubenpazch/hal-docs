@@ -49,9 +49,11 @@ jobs:
 
       - name: Run RSpec
         env:
-          DATABASE_URL:     postgresql://hal_docs:password@localhost/hal_docs_test
-          RAILS_ENV:        test
-          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+          DATABASE_URL:          postgresql://hal_docs:password@localhost/hal_docs_test
+          RAILS_ENV:             test
+          RAILS_MASTER_KEY:      ${{ secrets.RAILS_MASTER_KEY }}
+          DEVISE_JWT_SECRET_KEY: "ci-test-jwt-secret-not-used-in-production-000000000000"
+          SECRET_KEY_BASE:       "ci-test-secret-key-base-not-used-in-production-0000000000000000000"
         run: bundle exec rspec --format progress
 
   # ── Test: Frontend ───────────────────────────────────────────────────────────
