@@ -214,6 +214,8 @@
 .statusRespondido { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
 .statusArchivado  { background: #f9fafb; color: #6b7280; border: 1px solid #e5e7eb; }
 .statusAnulado    { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+.statusDevuelto   { background: #fff7ed; color: #c2410c; border: 1px solid #fed7aa; }
+.statusFinalizado { background: #ecfdf5; color: #065f46; border: 1px solid #6ee7b7; }
 
 .priorityBaja    { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
 .priorityMedia   { background: #fefce8; color: #a16207; border: 1px solid #fde68a; }

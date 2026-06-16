@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner'
@@ -117,8 +117,6 @@ export default function NuevoTramitePage() {
     set('attachments', [pdf])
     setErrors((e) => { const n = { ...e }; delete n.attachments; return n })
   }
-
-  const selectedDocType = documentTypes.find((t) => t.id === form.document_type_id)
 
   return (
     <div className={styles.page}>

@@ -24,6 +24,7 @@ export interface TimelineEvent {
   date: string
   status: string
   event: string
+  from_area?: string | null
   area?: string | null
   notes?: string | null
 }

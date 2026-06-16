@@ -1,4 +1,5 @@
 import '@testing-library/jest-dom'
+import { vi } from 'vitest'
 
 // Mock CSS Modules — return a Proxy that gives back the key as the class name
 // so className lookups like styles.foo === "foo" work in tests

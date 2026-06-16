@@ -35,12 +35,14 @@ const PRIORITY_OPTIONS: { value: DocumentPriority | ''; label: string }[] = [
 const STATUS_LABEL: Record<DocumentStatus, string> = {
   registrado: 'Registrado', en_proceso: 'En Proceso', derivado: 'Derivado',
   respondido: 'Respondido', archivado: 'Archivado', anulado: 'Anulado',
+  devuelto: 'Devuelto', finalizado: 'Finalizado',
 }
 
 const STATUS_CLASS: Record<DocumentStatus, string> = {
   registrado: styles.statusRegistrado, en_proceso: styles.statusEnProceso,
   derivado: styles.statusDerivado, respondido: styles.statusRespondido,
   archivado: styles.statusArchivado, anulado: styles.statusAnulado,
+  devuelto: styles.statusDevuelto, finalizado: styles.statusFinalizado,
 }
 
 const PRIORITY_LABEL: Record<DocumentPriority, string> = {
@@ -72,6 +74,10 @@ const STATUS_TRANSITIONS: Record<DocumentStatus, { value: DocumentStatus; label:
   ],
   archivado: [],
   anulado:   [],
+  devuelto:  [
+    { value: 'en_proceso', label: 'Retomar', icon: <Clock size={13} /> },
+  ],
+  finalizado: [],
 }
 
 // ── Helpers ────────────────────────────────────────────────────────────
@@ -314,8 +320,7 @@ export default function MisTramitesPage() {
       {/* Pagination */}
       {meta && meta.total_pages > 1 && (
         <Pagination
-          currentPage={meta.current_page}
-          totalPages={meta.total_pages}
+          meta={meta}
           onPageChange={setPage}
         />
       )}

@@ -4,6 +4,7 @@ export interface User {
   nombre: string
   apellido: string
   full_name: string
+  dni?: string
   cargo?: string
   area?: string
   area_id?: number
