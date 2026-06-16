@@ -1,0 +1,134 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches-ignore: [main]  # run on feature branches too, not just PRs
+
+jobs:
+  # ── Ruby: security scans ──────────────────────────────────────────────────────
+  scan-ruby:
+    name: Security scans (Brakeman + bundler-audit)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Brakeman static analysis
+        run: bin/brakeman --no-pager -q
+
+      - name: bundler-audit CVE check
+        run: bin/bundler-audit check --update
+
+  # ── Ruby: lint ────────────────────────────────────────────────────────────────
+  lint-ruby:
+    name: RuboCop
+    runs-on: ubuntu-latest
+    env:
+      RUBOCOP_CACHE_ROOT: tmp/rubocop
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - uses: actions/cache@v4
+        with:
+          path: ${{ env.RUBOCOP_CACHE_ROOT }}
+          key: rubocop-${{ runner.os }}-${{ hashFiles('.ruby-version', '**/.rubocop.yml', 'Gemfile.lock') }}
+          restore-keys: rubocop-${{ runner.os }}-
+
+      - name: RuboCop
+        run: bin/rubocop -f github
+
+  # ── Ruby: RSpec ───────────────────────────────────────────────────────────────
+  test-ruby:
+    name: RSpec
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER:     hal_docs
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB:       hal_docs_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Run RSpec
+        env:
+          DATABASE_URL:     postgresql://hal_docs:password@localhost/hal_docs_test
+          RAILS_ENV:        test
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+        run: bundle exec rspec --format progress
+
+  # ── Frontend: lint + type-check + Vitest ──────────────────────────────────────
+  test-frontend:
+    name: Frontend (ESLint + TSC + Vitest)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - run: npm ci
+
+      - name: ESLint
+        run: npm run lint
+
+      - name: TypeScript type-check
+        run: npx tsc --noEmit
+
+      - name: Vitest
+        run: npm test -- --run
+
+  # ── Docker build check (no push) ─────────────────────────────────────────────
+  build-check:
+    name: Docker build (dry-run)
+    runs-on: ubuntu-latest
+    needs: [test-ruby, test-frontend]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Build API image (no push)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push:    false
+
+      - name: Build frontend image (no push)
+        uses: docker/build-push-action@v6
+        with:
+          context: ./frontend
+          push:    false
+

@@ -1,0 +1,25 @@
+{
+  "_comment": "IAM role trust policy for GitHub Actions OIDC. Apply with:",
+  "_comment2": "  aws iam create-role --role-name github-actions-deploy --assume-role-policy-document file://iam-github-oidc-trust.json",
+  "_comment3": "Then attach the permissions policy below to that role.",
+  "_comment4": "Replace YOUR_GITHUB_ORG/YOUR_REPO with your actual values.",
+
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": "arn:aws:iam::ACCOUNT_ID:oidc-provider/token.actions.githubusercontent.com"
+      },
+      "Action": "sts:AssumeRoleWithWebIdentity",
+      "Condition": {
+        "StringEquals": {
+          "token.actions.githubusercontent.com:aud": "sts.amazonaws.com"
+        },
+        "StringLike": {
+          "token.actions.githubusercontent.com:sub": "repo:YOUR_GITHUB_ORG/YOUR_REPO:*"
+        }
+      }
+    }
+  ]
+}

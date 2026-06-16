@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: Oficina de Tecnología
+  description: Área de sistemas
+  parent_id:
+  area_type: 0
+  discarded_at:
+
+two:
+  name: Recursos Humanos
+  description: Área de personal
+  parent_id:
+  area_type: 0
+  discarded_at:

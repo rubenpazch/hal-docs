@@ -1,0 +1,313 @@
+.page {
+  max-width: 860px;
+}
+
+/* Page header */
+.pageHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.backBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #6b7280;
+  transition: border-color 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+
+.backBtn:hover {
+  border-color: #4f46e5;
+  color: #4f46e5;
+}
+
+.pageHeaderText h1 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 2px;
+}
+
+.pageHeaderText p {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* Card */
+.card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.cardSection {
+  padding: 24px 28px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.cardSection:last-child {
+  border-bottom: none;
+}
+
+.sectionTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 18px;
+}
+
+/* Form grid */
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.formFieldFull {
+  grid-column: 1 / -1;
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.formField label {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.formField label span {
+  color: #dc2626;
+  margin-left: 2px;
+}
+
+.formField input,
+.formField select,
+.formField textarea {
+  padding: 10px 13px;
+  border: 1px solid #d1d5db;
+  border-radius: 9px;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  background: #fff;
+  color: #111827;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.formField input:focus,
+.formField select:focus,
+.formField textarea:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.formField textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.inputError {
+  border-color: #dc2626 !important;
+  background: #fff5f5;
+}
+
+.fieldError {
+  font-size: 12px;
+  color: #dc2626;
+}
+
+/* Dropzone */
+.dropzone {
+  border: 2px dashed #d1d5db;
+  border-radius: 10px;
+  padding: 28px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  background: #fafafa;
+}
+
+.dropzone:hover,
+.dropzoneActive {
+  border-color: #4f46e5;
+  background: #f0f0ff;
+}
+
+.dropzoneIcon {
+  color: #9ca3af;
+  margin: 0 auto 10px;
+}
+
+.dropzoneTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 4px;
+}
+
+.dropzoneSubtitle {
+  font-size: 12px;
+  color: #9ca3af;
+  margin: 0;
+}
+
+/* File list */
+.fileList {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fileItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.fileIcon {
+  color: #4f46e5;
+  flex-shrink: 0;
+}
+
+.fileInfo {
+  flex: 1;
+  overflow: hidden;
+}
+
+.fileName {
+  font-size: 13px;
+  font-weight: 500;
+  color: #111827;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fileSize {
+  font-size: 11.5px;
+  color: #9ca3af;
+}
+
+.fileRemove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #9ca3af;
+  padding: 3px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  transition: color 0.15s, background 0.15s;
+  flex-shrink: 0;
+}
+
+.fileRemove:hover {
+  color: #dc2626;
+  background: #fee2e2;
+}
+
+/* Footer actions */
+.cardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 18px 28px;
+  background: #f9fafb;
+  border-top: 1px solid #e5e7eb;
+}
+
+.btnSecondary {
+  padding: 10px 20px;
+  background: #fff;
+  color: #374151;
+  border: 1px solid #d1d5db;
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btnSecondary:hover {
+  background: #f9fafb;
+}
+
+.btnPrimary {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 22px;
+  background: #4f46e5;
+  color: #fff;
+  border: none;
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btnPrimary:hover {
+  background: #4338ca;
+}
+
+.btnPrimary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Badge preview */
+.docNumberBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  border-radius: 9999px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #4f46e5;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 640px) {
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .formFieldFull {
+    grid-column: 1;
+  }
+
+  .cardSection {
+    padding: 18px 16px;
+  }
+
+  .cardFooter {
+    padding: 14px 16px;
+  }
+}

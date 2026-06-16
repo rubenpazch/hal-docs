@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: Oficio
+  description: Documento oficial de comunicación
+  code: OFI
+  is_active: true
+
+two:
+  name: Memorando
+  description: Comunicación interna
+  code: MEM
+  is_active: true

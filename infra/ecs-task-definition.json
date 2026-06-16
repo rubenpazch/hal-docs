@@ -1,0 +1,108 @@
+{
+  "comment": "ECS Task Definition templates — replace placeholders before registering.",
+  "comment2": "Placeholders: ACCOUNT_ID, REGION, CLUSTER_NAME, LOG_GROUP_PREFIX, and all <SECRET_ARN_*>.",
+
+  "api": {
+    "family": "hal-docs-api",
+    "networkMode": "awsvpc",
+    "requiresCompatibilities": ["FARGATE"],
+    "cpu": "512",
+    "memory": "1024",
+    "executionRoleArn": "arn:aws:iam::ACCOUNT_ID:role/ecsTaskExecutionRole",
+    "taskRoleArn": "arn:aws:iam::ACCOUNT_ID:role/hal-docs-task-role",
+    "containerDefinitions": [
+      {
+        "name": "api",
+        "image": "ACCOUNT_ID.dkr.ecr.REGION.amazonaws.com/hal-docs-api:latest",
+        "essential": true,
+        "portMappings": [
+          {
+            "containerPort": 80,
+            "protocol": "tcp"
+          }
+        ],
+        "environment": [
+          { "name": "RAILS_ENV",       "value": "production" },
+          { "name": "RAILS_LOG_LEVEL", "value": "info" },
+          { "name": "AWS_REGION",      "value": "REGION" },
+          { "name": "AWS_BUCKET",      "value": "hal-docs-storage-production" },
+          { "name": "FRONTEND_URL",    "value": "https://your-domain.com" },
+          { "name": "APP_HOST",        "value": "api.your-domain.com" }
+        ],
+        "secrets": [
+          {
+            "name": "DATABASE_URL",
+            "valueFrom": "<SECRET_ARN_DATABASE_URL>"
+          },
+          {
+            "name": "RAILS_MASTER_KEY",
+            "valueFrom": "<SECRET_ARN_RAILS_MASTER_KEY>"
+          },
+          {
+            "name": "SECRET_KEY_BASE",
+            "valueFrom": "<SECRET_ARN_SECRET_KEY_BASE>"
+          }
+        ],
+        "logConfiguration": {
+          "logDriver": "awslogs",
+          "options": {
+            "awslogs-group":         "/ecs/hal-docs-api",
+            "awslogs-region":        "REGION",
+            "awslogs-stream-prefix": "api"
+          }
+        },
+        "healthCheck": {
+          "command": ["CMD-SHELL", "curl -fsS http://localhost/up || exit 1"],
+          "interval": 15,
+          "timeout": 5,
+          "retries": 3,
+          "startPeriod": 30
+        }
+      }
+    ]
+  },
+
+  "frontend": {
+    "family": "hal-docs-frontend",
+    "networkMode": "awsvpc",
+    "requiresCompatibilities": ["FARGATE"],
+    "cpu": "256",
+    "memory": "512",
+    "executionRoleArn": "arn:aws:iam::ACCOUNT_ID:role/ecsTaskExecutionRole",
+    "containerDefinitions": [
+      {
+        "name": "frontend",
+        "image": "ACCOUNT_ID.dkr.ecr.REGION.amazonaws.com/hal-docs-frontend:latest",
+        "essential": true,
+        "portMappings": [
+          {
+            "containerPort": 80,
+            "protocol": "tcp"
+          }
+        ],
+        "environment": [
+          {
+            "name": "API_URL",
+            "value": "http://api.your-domain.com",
+            "comment": "Internal ALB URL or ECS Service Connect endpoint for the api service"
+          }
+        ],
+        "logConfiguration": {
+          "logDriver": "awslogs",
+          "options": {
+            "awslogs-group":         "/ecs/hal-docs-frontend",
+            "awslogs-region":        "REGION",
+            "awslogs-stream-prefix": "frontend"
+          }
+        },
+        "healthCheck": {
+          "command": ["CMD-SHELL", "wget -q -O /dev/null http://localhost/ || exit 1"],
+          "interval": 15,
+          "timeout": 5,
+          "retries": 3,
+          "startPeriod": 10
+        }
+      }
+    ]
+  }
+}

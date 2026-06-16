@@ -1,0 +1,170 @@
+.page {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6d28d9, #7c3aed);
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.name {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 0.35rem;
+}
+
+.roleBadge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-right: 0.5rem;
+}
+
+.roleBadge[data-role='admin']   { background: #fce7f3; color: #9d174d; }
+.roleBadge[data-role='manager'] { background: #ede9fe; color: #5b21b6; }
+.roleBadge[data-role='staff']   { background: #e0f2fe; color: #0369a1; }
+
+.area {
+  font-size: 0.82rem;
+  color: #64748b;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 0.25rem;
+  border-bottom: 2px solid #e2e8f0;
+  margin-bottom: 2rem;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1rem;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  font-size: 0.9rem;
+  color: #64748b;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.tab:hover { color: #1e293b; }
+
+.tabActive {
+  color: #6d28d9;
+  border-bottom-color: #6d28d9;
+  font-weight: 600;
+}
+
+/* Form */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.field label {
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.field input {
+  padding: 0.55rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #1e293b;
+  transition: border-color 0.15s;
+  outline: none;
+}
+
+.field input:focus {
+  border-color: #6d28d9;
+  box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.1);
+}
+
+.fieldReadonly {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.fieldReadonly label {
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.fieldReadonly span {
+  font-size: 0.9rem;
+  color: #64748b;
+  padding: 0.55rem 0.75rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.err {
+  font-size: 0.78rem;
+  color: #dc2626;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  align-self: flex-start;
+  padding: 0.6rem 1.25rem;
+  background: #6d28d9;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn:hover:not(:disabled) { background: #5b21b6; }
+.btn:disabled { opacity: 0.6; cursor: not-allowed; }

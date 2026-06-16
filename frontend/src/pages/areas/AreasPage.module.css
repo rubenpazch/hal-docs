@@ -1,0 +1,294 @@
+/* ── Page layout ─────────────────────────────────────────── */
+.page {
+  max-width: 900px;
+}
+
+/* ── Header ──────────────────────────────────────────────── */
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+}
+
+.headerLeft h1 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 3px;
+}
+
+.headerLeft p {
+  font-size: 13.5px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.btnNew {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 18px;
+  background: #4f46e5;
+  color: #fff;
+  border: none;
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.btnNew:hover {
+  background: #4338ca;
+}
+
+/* ── Search bar ──────────────────────────────────────────── */
+.searchBar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.searchWrap {
+  position: relative;
+  flex: 1;
+  max-width: 380px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  pointer-events: none;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 9px 12px 9px 34px;
+  border: 1px solid #d1d5db;
+  border-radius: 9px;
+  font-size: 13.5px;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.searchInput:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+/* Toggle show inactive */
+.toggleInactive {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 9px;
+  font-size: 13px;
+  color: #6b7280;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+  white-space: nowrap;
+  margin-left: auto;
+}
+
+.toggleInactive:hover,
+.toggleInactiveActive {
+  border-color: #4f46e5;
+  color: #4f46e5;
+}
+
+/* ── Table ───────────────────────────────────────────────── */
+.tableWrap {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.table thead th {
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.table tbody tr {
+  border-bottom: 1px solid #f3f4f6;
+  transition: background 0.1s;
+}
+
+.table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.table tbody tr:hover {
+  background: #f9fafb;
+}
+
+.table tbody td {
+  padding: 14px 16px;
+  color: #374151;
+  vertical-align: middle;
+}
+
+/* Area name + parent path */
+.areaName {
+  font-weight: 600;
+  color: #111827;
+}
+
+.parentPath {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Type badge */
+.typeBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 9px;
+  border-radius: 9999px;
+  font-size: 11.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.typeGerencia    { background: #fef3c7; color: #92400e; }
+.typeDepartamento { background: #dbeafe; color: #1e40af; }
+.typeEquipo      { background: #d1fae5; color: #065f46; }
+.typeUnidad      { background: #ede9fe; color: #5b21b6; }
+
+/* Status badge */
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 9px;
+  border-radius: 9999px;
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+.statusActive   { background: #d1fae5; color: #065f46; }
+.statusInactive { background: #fee2e2; color: #991b1b; }
+
+/* Count chips */
+.countChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btnIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #e5e7eb;
+  border-radius: 7px;
+  background: #fff;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-decoration: none;
+}
+
+.btnIcon:hover {
+  border-color: #4f46e5;
+  color: #4f46e5;
+  background: #eef2ff;
+}
+
+.btnIconDanger:hover {
+  border-color: #ef4444;
+  color: #ef4444;
+  background: #fef2f2;
+}
+
+.btnIconRestore:hover {
+  border-color: #10b981;
+  color: #10b981;
+  background: #ecfdf5;
+}
+
+/* ── Empty state ─────────────────────────────────────────── */
+.empty {
+  text-align: center;
+  padding: 56px 24px;
+  color: #9ca3af;
+}
+
+.empty svg {
+  margin: 0 auto 12px;
+}
+
+.empty h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 6px;
+}
+
+.empty p {
+  font-size: 13.5px;
+  margin: 0;
+}
+
+/* ── Skeleton ────────────────────────────────────────────── */
+.skeletonRow td {
+  padding: 18px 16px;
+}
+
+.skeletonLine {
+  height: 13px;
+  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 6px;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── Inactive row ────────────────────────────────────────── */
+.inactiveRow td {
+  opacity: 0.55;
+}

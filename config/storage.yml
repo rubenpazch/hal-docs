@@ -1,0 +1,13 @@
+test:
+  service: Disk
+  root: <%= Rails.root.join("tmp/storage") %>
+
+local:
+  service: Disk
+  root: <%= Rails.root.join("storage") %>
+
+# Amazon S3 — credentials come from the ECS task IAM role (no keys needed)
+amazon:
+  service: S3
+  region: <%= ENV.fetch("AWS_REGION", "us-east-1") %>
+  bucket: <%= ENV.fetch("AWS_BUCKET", "hal-docs-storage-production") %>

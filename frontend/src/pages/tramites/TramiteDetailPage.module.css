@@ -1,0 +1,603 @@
+.page {
+  max-width: 1000px;
+}
+
+/* ── Page header ────────────────────────────────────────────────────── */
+.pageHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.backBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 9px;
+  cursor: pointer;
+  color: #6b7280;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.backBtn:hover {
+  border-color: #4f46e5;
+  color: #4f46e5;
+}
+
+.pageTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 2px;
+}
+
+.pageSubtitle {
+  font-size: 13px;
+  color: #9ca3af;
+  margin: 0;
+}
+
+.breadcrumb {
+  color: #6366f1;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.breadcrumb:hover {
+  text-decoration: underline;
+}
+
+/* ── Header card ────────────────────────────────────────────────────── */
+.headerCard {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+
+.headerTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.docMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hashIcon {
+  color: #9ca3af;
+}
+
+.docNumber {
+  font-size: 13px;
+  font-weight: 700;
+  color: #374151;
+  font-family: monospace;
+  background: #f3f4f6;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.docTypeTag {
+  font-size: 12px;
+  font-weight: 500;
+  color: #4f46e5;
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  padding: 2px 8px;
+  border-radius: 9999px;
+}
+
+.badges {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+/* Priority badges */
+.priorityBaja    { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
+.priorityMedia   { background: #fefce8; color: #a16207; border: 1px solid #fde68a; }
+.priorityAlta    { background: #fff7ed; color: #c2410c; border: 1px solid #fed7aa; }
+.priorityUrgente { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+
+/* Status badges */
+.statusRegistrado { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+.statusEnProceso  { background: #fffbeb; color: #b45309; border: 1px solid #fde68a; }
+.statusDerivado   { background: #f5f3ff; color: #6d28d9; border: 1px solid #ddd6fe; }
+.statusRespondido { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
+.statusArchivado  { background: #f9fafb; color: #6b7280; border: 1px solid #e5e7eb; }
+.statusAnulado    { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+.statusDevuelto   { background: #fff7ed; color: #c2410c; border: 1px solid #fed7aa; }
+.statusFinalizado { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+
+.subject {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* ── Two-column grid ────────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 16px;
+  align-items: start;
+}
+
+@media (max-width: 720px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mainCol,
+.sideCol {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── Section card ───────────────────────────────────────────────────── */
+.card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 20px 22px;
+}
+
+.cardTitle {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+/* ── Field rows ─────────────────────────────────────────────────────── */
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.field {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.fieldLabel {
+  flex-shrink: 0;
+  width: 110px;
+  font-size: 12.5px;
+  color: #9ca3af;
+  font-weight: 500;
+  padding-top: 1px;
+}
+
+.fieldValue {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13.5px;
+  color: #111827;
+  font-weight: 500;
+  flex-wrap: wrap;
+}
+
+.fieldIcon {
+  color: #9ca3af;
+  flex-shrink: 0;
+}
+
+/* ── Due date ───────────────────────────────────────────────────────── */
+.dueDate {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.dueDate_ok      { color: #15803d; background: #f0fdf4; }
+.dueDate_warning { color: #b45309; background: #fffbeb; }
+.dueDate_overdue { color: #b91c1c; background: #fef2f2; }
+
+/* ── Observations ───────────────────────────────────────────────────── */
+.observations {
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.65;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+/* ── Created by ─────────────────────────────────────────────────────── */
+.createdByRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  background: #4f46e5;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.createdByName {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.createdByEmail {
+  font-size: 12.5px;
+  color: #9ca3af;
+  margin-top: 2px;
+}
+
+/* ── Attachments ────────────────────────────────────────────────────── */
+.attachmentCount {
+  margin-left: auto;
+  background: #e0e7ff;
+  color: #4338ca;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: 9999px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.emptyAttachments {
+  font-size: 13px;
+  color: #9ca3af;
+  margin: 0;
+}
+
+.attachmentList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.attachmentItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Action buttons per attachment */
+.attachmentBtns {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.attBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 7px;
+  color: #6b7280;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+}
+
+.attBtn:hover {
+  background: #eef2ff;
+  border-color: #c7d2fe;
+  color: #4f46e5;
+}
+
+/* ── PDF Preview Modal ───────────────────────────────────────────────── */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(3px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.modalBox {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 860px;
+  max-height: calc(100vh - 40px);
+  overflow: hidden;
+  animation: slideUp 0.18s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(16px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  border-bottom: 1px solid #e5e7eb;
+  flex-shrink: 0;
+}
+
+.modalTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  min-width: 0;
+}
+
+.modalTitle span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.modalActions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.modalActionBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  color: #6b7280;
+  text-decoration: none;
+  transition: background 0.12s, color 0.12s;
+}
+
+.modalActionBtn:hover {
+  background: #eef2ff;
+  color: #4f46e5;
+}
+
+.modalCloseBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  color: #6b7280;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+
+.modalCloseBtn:hover {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #dc2626;
+}
+
+.modalBody {
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.pdfFrame {
+  width: 100%;
+  height: 100%;
+  min-height: 70vh;
+  border: none;
+  display: block;
+}
+
+.previewUnsupported {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 60px 24px;
+  color: #9ca3af;
+  text-align: center;
+}
+
+.previewUnsupported p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.pdfSpinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid #e5e7eb;
+  border-top-color: #4f46e5;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.downloadLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #4f46e5;
+  font-size: 13.5px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.downloadLink:hover {
+  text-decoration: underline;
+}
+
+.attachmentIcon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  background: #f3f4f6;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+}
+
+.attachmentInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.attachmentName {
+  font-size: 13px;
+  font-weight: 500;
+  color: #4f46e5;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.attachmentName:hover {
+  text-decoration: underline;
+}
+
+.attachmentMeta {
+  font-size: 11.5px;
+  color: #9ca3af;
+}
+
+/* ── Error state ────────────────────────────────────────────────────── */
+.errorState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 64px 24px;
+  background: #fff;
+  border: 1px dashed #d1d5db;
+  border-radius: 14px;
+  color: #6b7280;
+  text-align: center;
+}
+
+.errorState p {
+  margin: 0;
+  font-size: 14px;
+  max-width: 360px;
+}
+
+.backLink {
+  color: #4f46e5;
+  font-size: 13.5px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.backLink:hover {
+  text-decoration: underline;
+}
+
+/* ── Skeleton ───────────────────────────────────────────────────────── */
+.skeleton {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.skeletonLine {
+  height: 14px;
+  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+  background-size: 200% 100%;
+  border-radius: 6px;
+  animation: shimmer 1.4s infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

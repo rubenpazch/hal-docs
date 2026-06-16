@@ -1,0 +1,177 @@
+.card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: box-shadow 0.15s, border-color 0.15s;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+.card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+  border-color: #c7d2fe;
+}
+
+/* Top row */
+.topRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.docMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.docNumber {
+  font-size: 12px;
+  font-weight: 700;
+  color: #4f46e5;
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  border-radius: 6px;
+  padding: 2px 8px;
+  white-space: nowrap;
+}
+
+.docTypeTag {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #6b7280;
+  background: #f3f4f6;
+  border-radius: 6px;
+  padding: 2px 8px;
+  white-space: nowrap;
+}
+
+/* Badges */
+.badges {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: 9999px;
+  font-size: 11.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Status badges */
+.statusRegistrado  { background: #dbeafe; color: #1e40af; }
+.statusEnProceso   { background: #fef3c7; color: #92400e; }
+.statusDerivado    { background: #e0e7ff; color: #3730a3; }
+.statusRespondido  { background: #d1fae5; color: #065f46; }
+.statusArchivado   { background: #f3f4f6; color: #374151; }
+.statusAnulado     { background: #fee2e2; color: #991b1b; }
+
+/* Priority badges */
+.priorityBaja     { background: #f0fdf4; color: #166534; }
+.priorityMedia    { background: #fefce8; color: #854d0e; }
+.priorityAlta     { background: #fff7ed; color: #c2410c; }
+.priorityUrgente  { background: #fff1f2; color: #be123c; }
+
+/* Subject */
+.subject {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Info row */
+.infoRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.infoItem {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12.5px;
+  color: #6b7280;
+  min-width: 0;
+}
+
+.infoItem span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Footer row */
+.footerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #f3f4f6;
+}
+
+.createdBy {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #eef2ff;
+  color: #4f46e5;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  text-transform: uppercase;
+}
+
+.createdByName {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.dueDate {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+}
+
+.dueDateOk      { color: #6b7280; }
+.dueDateWarning { color: #d97706; font-weight: 600; }
+.dueDateOverdue { color: #dc2626; font-weight: 600; }
+
+.attachmentCount {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #9ca3af;
+}

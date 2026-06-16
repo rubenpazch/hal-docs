@@ -1,0 +1,250 @@
+.page {
+  max-width: 1000px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+}
+
+.headerLeft h1 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 3px;
+}
+
+.headerLeft p {
+  font-size: 13.5px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.btnNew {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 18px;
+  background: #4f46e5;
+  color: #fff;
+  border: none;
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.btnNew:hover {
+  background: #4338ca;
+}
+
+/* Filters bar */
+.filtersBar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+
+.searchWrap {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  pointer-events: none;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 9px 12px 9px 34px;
+  border: 1px solid #d1d5db;
+  border-radius: 9px;
+  font-size: 13.5px;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.searchInput:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.filterSelect {
+  padding: 9px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 9px;
+  font-size: 13.5px;
+  background: #fff;
+  color: #374151;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.filterSelect:focus {
+  border-color: #4f46e5;
+}
+
+.clearBtn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 9px 12px;
+  background: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 9px;
+  font-size: 13px;
+  color: #6b7280;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+.clearBtn:hover {
+  border-color: #4f46e5;
+  color: #4f46e5;
+}
+
+/* Active filter pills */
+.activePills {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #4f46e5;
+}
+
+.pillRemove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6366f1;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  line-height: 1;
+}
+
+.pillRemove:hover {
+  color: #dc2626;
+}
+
+/* Stats row */
+.statsRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.statChip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  color: #6b7280;
+}
+
+.statDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Cards list */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Empty state */
+.emptyState {
+  text-align: center;
+  padding: 56px 16px;
+  background: #fff;
+  border: 1px dashed #d1d5db;
+  border-radius: 12px;
+}
+
+.emptyIcon {
+  margin: 0 auto 12px;
+  color: #d1d5db;
+}
+
+.emptyState h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 6px;
+}
+
+.emptyState p {
+  font-size: 13.5px;
+  color: #9ca3af;
+  margin: 0 0 18px;
+}
+
+/* Loading skeleton */
+.skeleton {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skeletonLine {
+  height: 14px;
+  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: 6px;
+}
+
+.skeletonLineShort {
+  width: 40%;
+}
+
+.skeletonLineMedium {
+  width: 65%;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
