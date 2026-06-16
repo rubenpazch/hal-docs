@@ -58,6 +58,9 @@ gem "dotenv-rails"
 gem "faraday"
 gem "faraday-multipart"
 
+# Rate limiting & blocking abusive requests
+gem "rack-attack"
+
 # Background jobs (Sidekiq as alternative to solid_queue if needed)
 # gem "sidekiq"
 

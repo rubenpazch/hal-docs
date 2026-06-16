@@ -1,6 +1,9 @@
 module Api
   module V1
     class ProfileController < ApplicationController
+      # All actions operate on current_user — no separate policy lookup needed
+      skip_after_action :verify_authorized
+
       def show
         @current_user_profile = User.includes(:area, area_memberships: :area).find(current_user.id)
       end

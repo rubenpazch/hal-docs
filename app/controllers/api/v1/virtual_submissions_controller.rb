@@ -4,6 +4,7 @@ module Api
     class VirtualSubmissionsController < ApplicationController
       include Pagy::Backend
       skip_before_action :authenticate_user!
+      skip_after_action  :verify_authorized
 
       rescue_from ActiveRecord::RecordNotFound, with: :handle_not_found
 

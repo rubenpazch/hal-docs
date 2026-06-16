@@ -2,6 +2,7 @@ module Api
   module V1
     class RolePermissionsController < ApplicationController
       def my_permissions
+        skip_authorization  # Returns current user's own permissions — no resource-level check needed
         role = current_user.role.to_s
         RolePermission.ensure_defaults!(role)
         @permissions = RolePermission.map_for(role)

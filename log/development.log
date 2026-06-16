@@ -21600,3 +21600,5 @@ Processing by Api::V1::DocumentsController#show as HTML
 Completed 200 OK in 82ms (Views: 0.1ms | ActiveRecord: 39.5ms (13 queries, 1 cached) | GC: 17.3ms)
 
 
+[dotenv] Set [36mFRONTEND_URL[0m, [36mDEVISE_JWT_SECRET_KEY[0m, [36mDATABASE_URL[0m
+[dotenv] Loaded [33m.env.development[0m

@@ -4,9 +4,11 @@ class ApplicationController < ActionController::API
   include Pundit::Authorization
 
   before_action :authenticate_user!
+  after_action  :verify_authorized, unless: :devise_controller?
 
-  rescue_from Pundit::NotAuthorizedError, with: :handle_unauthorized
+  rescue_from Pundit::NotAuthorizedError,  with: :handle_unauthorized
   rescue_from ActiveRecord::RecordNotFound, with: :handle_not_found
+  rescue_from Pundit::AuthorizationNotPerformedError, with: :handle_authorization_not_performed
 
   private
 
@@ -16,5 +18,9 @@ class ApplicationController < ActionController::API
 
   def handle_not_found
     render json: { error: "Recurso no encontrado" }, status: :not_found
+  end
+
+  def handle_authorization_not_performed
+    render json: { error: "Acción no autorizada" }, status: :forbidden
   end
 end

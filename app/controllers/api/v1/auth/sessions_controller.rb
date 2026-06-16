@@ -13,13 +13,17 @@ module Api
         end
 
         def respond_to_on_destroy
-          if request.headers["Authorization"].present?
-            jwt_payload = JWT.decode(
-              request.headers["Authorization"].split(" ").last,
-              Rails.application.credentials.secret_key_base
-            ).first
+          jwt_token = request.headers["Authorization"]&.split(" ")&.last
 
-            current_user = User.find(jwt_payload["sub"])
+          if jwt_token.present?
+            jwt_secret = ENV.fetch("DEVISE_JWT_SECRET_KEY", Rails.application.credentials.secret_key_base)
+            jwt_payload = begin
+              JWT.decode(jwt_token, jwt_secret, true, algorithms: ["HS256"]).first
+            rescue JWT::DecodeError
+              nil
+            end
+
+            current_user = jwt_payload ? User.find_by(id: jwt_payload["sub"]) : nil
           end
 
           if current_user

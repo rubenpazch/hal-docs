@@ -18,7 +18,7 @@ Devise.setup do |config|
     jwt.revocation_requests = [
       ["DELETE", %r{^/api/v1/auth/logout$}]
     ]
-    jwt.expiration_time = 24.hours.to_i
+    jwt.expiration_time = 8.hours.to_i  # Shortened from 24h to limit token reuse window
   end
 
   # The secret key used by Devise. Devise uses this key to generate
@@ -36,7 +36,7 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
+  config.mailer_sender = ENV.fetch("MAILER_FROM", "noreply@hal-docs.app")
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
@@ -102,7 +102,7 @@ Devise.setup do |config|
   # It will change confirmation, password recovery and other workflows
   # to behave the same regardless if the e-mail provided was right or wrong.
   # Does not affect registerable.
-  # config.paranoid = true
+  config.paranoid = true  # Prevents user enumeration via reset/confirmation messages
 
   # By default Devise will store the user in session. You can skip storage for
   # particular strategies by setting this option.
@@ -193,7 +193,7 @@ Devise.setup do |config|
 
   # ==> Configuration for :validatable
   # Range for password length.
-  config.password_length = 6..128
+  config.password_length = 10..128  # Raised from 6 to enforce stronger passwords
 
   # Email regex used to validate email formats. It simply asserts that
   # one (and only one) @ exists in the given string. This is mainly
