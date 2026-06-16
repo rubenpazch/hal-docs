@@ -71,7 +71,7 @@ RSpec.describe "Api::V1::Documents", type: :request do
 
     it "returns 422 with missing required fields" do
       post "/api/v1/documents", params: { document: { subject: "" } }, headers: headers, as: :json
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(JSON.parse(response.body)).to have_key("errors")
     end
   end

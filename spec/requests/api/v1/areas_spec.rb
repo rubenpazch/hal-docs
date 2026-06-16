@@ -45,7 +45,7 @@ RSpec.describe "Api::V1::Areas", type: :request do
 
     it "returns 422 with invalid data" do
       post "/api/v1/areas", params: { area: { name: "" } }, headers: headers, as: :json
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 

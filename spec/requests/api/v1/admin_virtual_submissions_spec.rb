@@ -61,7 +61,7 @@ RSpec.describe "Api::V1::AdminVirtualSubmissions", type: :request do
       patch "/api/v1/admin/virtual_submissions/#{submission.id}/update_status",
             params: { status: "derivado" },
             headers: headers, as: :json
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
 
     it "derives to an area when to_area_id is provided" do

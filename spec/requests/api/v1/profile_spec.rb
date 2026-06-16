@@ -32,7 +32,7 @@ RSpec.describe "Api::V1::Profile", type: :request do
       patch "/api/v1/me",
             params: { user: { nombre: "" } },
             headers: headers, as: :json
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 
@@ -41,7 +41,7 @@ RSpec.describe "Api::V1::Profile", type: :request do
       patch "/api/v1/me/password",
             params: { current_password: "wrongpassword", password: "newpass123", password_confirmation: "newpass123" },
             headers: headers, as: :json
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
 
     it "updates the password when current password is correct" do

@@ -39,7 +39,7 @@ RSpec.describe "Api::V1::DocumentTypes", type: :request do
       post "/api/v1/document_types",
            params: { document_type: { name: "Other", code: "DUPE" } },
            headers: headers, as: :json
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 

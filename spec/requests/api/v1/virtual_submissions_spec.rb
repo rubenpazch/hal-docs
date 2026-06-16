@@ -44,13 +44,13 @@ RSpec.describe "Api::V1::VirtualSubmissions (public)", type: :request do
       post "/api/v1/mesa_virtual/submit",
            params: { submission: { submitter_type: "natural" } },
            headers: json_headers, as: :json
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
 
     it "requires company fields for juridica type" do
       params = valid_params.deep_merge(submission: { submitter_type: "juridica", company_name: nil })
       post "/api/v1/mesa_virtual/submit", params: params, headers: json_headers, as: :json
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
     end
   end
 
