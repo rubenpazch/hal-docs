@@ -9,10 +9,12 @@ import styles from './DocumentCard.module.css'
 const STATUS_LABEL: Record<DocumentStatus, string> = {
   registrado: 'Registrado',
   en_proceso: 'En Proceso',
-  derivado: 'Derivado',
+  derivado:   'Derivado',
   respondido: 'Respondido',
-  archivado: 'Archivado',
-  anulado: 'Anulado',
+  archivado:  'Archivado',
+  anulado:    'Anulado',
+  devuelto:   'Devuelto',
+  finalizado: 'Finalizado',
 }
 
 const STATUS_CLASS: Record<DocumentStatus, string> = {
@@ -22,6 +24,8 @@ const STATUS_CLASS: Record<DocumentStatus, string> = {
   respondido: styles.statusRespondido,
   archivado:  styles.statusArchivado,
   anulado:    styles.statusAnulado,
+  devuelto:   styles.statusDevuelto,
+  finalizado: styles.statusFinalizado,
 }
 
 const PRIORITY_LABEL: Record<DocumentPriority, string> = {

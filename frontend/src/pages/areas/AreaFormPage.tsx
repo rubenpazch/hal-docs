@@ -71,7 +71,6 @@ export default function AreaFormPage() {
     handleSubmit,
     control,
     reset,
-    watch,
     setError,
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({
@@ -83,8 +82,6 @@ export default function AreaFormPage() {
       parent_id:   null,
     },
   })
-
-  const selectedType = watch('area_type')
 
   // Populate form when editing
   useEffect(() => {

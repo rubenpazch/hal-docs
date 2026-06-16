@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { Search, ShieldCheck, Users, ChevronDown, ChevronRight, Plus, Trash2, Check, LayoutGrid, RotateCcw } from 'lucide-react'
 import { toast } from 'sonner'
@@ -48,7 +48,7 @@ const ROLE_BG: Record<Role, string> = {
   staff:   '#e0f2fe',
 }
 
-const POSITION_LABEL: Record<PositionRole, string> = {
+const _POSITION_LABEL: Record<PositionRole, string> = {
   jefe:           'Jefe',
   coordinador:    'Coordinador',
   operador_linea: 'Operador',
@@ -512,10 +512,11 @@ function PermisosTab() {
       const res = await api.get<PermissionsMatrix>('/role_permissions')
       return res.data
     },
-    onSuccess: (data) => {
-      if (!draft) setDraft(JSON.parse(JSON.stringify(data.permissions)))
-    },
-  } as any)
+  })
+
+  useEffect(() => {
+    if (data && !draft) setDraft(JSON.parse(JSON.stringify(data.permissions)))
+  }, [data])
 
   const saveMutation = useMutation({
     mutationFn: () => api.patch('/role_permissions/update_batch', { permissions: draft }),
@@ -528,7 +529,7 @@ function PermisosTab() {
   })
 
   const currentMatrix = draft ?? data?.permissions
-  const pageKeys = data?.page_keys ?? []
+  const pageKeys: string[] = data?.page_keys ?? []
 
   const toggle = (role: Role, key: string) => {
     setDraft((prev) => {
@@ -548,8 +549,8 @@ function PermisosTab() {
   }
 
   // Group page keys by section for display
-  const sections = Array.from(new Set(pageKeys.map((k) => PAGE_KEY_SECTION[k] ?? 'Otros')))
-  const keysBySection = (section: string) => pageKeys.filter((k) => (PAGE_KEY_SECTION[k] ?? 'Otros') === section)
+  const sections: string[] = Array.from(new Set(pageKeys.map((k: string) => PAGE_KEY_SECTION[k] ?? 'Otros')))
+  const keysBySection = (section: string): string[] => pageKeys.filter((k: string) => (PAGE_KEY_SECTION[k] ?? 'Otros') === section)
 
   const roles: Role[] = ['admin', 'manager', 'staff']
 

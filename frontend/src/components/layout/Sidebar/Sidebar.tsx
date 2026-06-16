@@ -3,7 +3,6 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import {
   LayoutDashboard,
   FileText,
-  FilePlus,
   Files,
   Clock,
   Upload,
@@ -175,7 +174,8 @@ export default function Sidebar() {
   let currentSection: { label: string; items: MenuItem[] } | null = null
 
   for (const item of visibleItems) {
-    if (item.section && item.section !== currentSection?.label) {
+    const prevLabel = currentSection ? currentSection.label : undefined
+    if (item.section && item.section !== prevLabel) {
       const existing = sections.find((s) => s.label === item.section)
       if (existing) {
         currentSection = existing
