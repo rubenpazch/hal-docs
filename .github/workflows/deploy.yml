@@ -157,6 +157,12 @@ jobs:
 
       - name: Run rails db:migrate as one-off ECS task
         run: |
+          # Skip migration if task definition doesn't exist yet (first deploy)
+          if ! aws ecs describe-task-definition --task-definition $API_TASK_FAMILY > /dev/null 2>&1; then
+            echo "Task definition $API_TASK_FAMILY not found — skipping migration (first deploy)"
+            exit 0
+          fi
+
           TASK_DEF=$(aws ecs describe-task-definition \
             --task-definition $API_TASK_FAMILY \
             --query 'taskDefinition.taskDefinitionArn' \
