@@ -174,7 +174,7 @@ export default function Sidebar() {
   let currentSection: { label: string; items: MenuItem[] } | null = null
 
   for (const item of visibleItems) {
-    const prevLabel = currentSection ? currentSection.label : undefined
+    const prevLabel: string | undefined = currentSection ? currentSection.label : undefined
     if (item.section && item.section !== prevLabel) {
       const existing = sections.find((s) => s.label === item.section)
       if (existing) {

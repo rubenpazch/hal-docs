@@ -48,12 +48,6 @@ const ROLE_BG: Record<Role, string> = {
   staff:   '#e0f2fe',
 }
 
-const _POSITION_LABEL: Record<PositionRole, string> = {
-  jefe:           'Jefe',
-  coordinador:    'Coordinador',
-  operador_linea: 'Operador',
-  soporte:        'Soporte',
-}
 
 // ── Tab 1: System Roles ────────────────────────────────────────────────
 function RolesTab() {
