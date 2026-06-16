@@ -33,9 +33,9 @@ echo "Account: $ACCOUNT_ID  Region: $REGION"
 # ── Collect secrets interactively ────────────────────────────────────────────
 echo ""
 echo "Enter the required secret values (input is hidden):"
-read -rsp "  DATABASE_URL (e.g. postgresql://user:pass@host/dbname): " DB_URL;    echo ""
-read -rsp "  RAILS_MASTER_KEY: "                                                  MASTER_KEY; echo ""
-read -rsp "  SECRET_KEY_BASE:  "                                                  SKB;        echo ""
+read -rsp "  DATABASE_URL (e.g. postgresql://user:pass@host/dbname): " DB_URL     </dev/tty; echo ""
+read -rsp "  RAILS_MASTER_KEY: "                                       MASTER_KEY </dev/tty; echo ""
+read -rsp "  SECRET_KEY_BASE:  "                                       SKB        </dev/tty; echo ""
 
 # ── Helper: create or update a Secrets Manager secret ────────────────────────
 upsert_secret() {
