@@ -217,7 +217,18 @@ jobs:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github-actions-deploy
           aws-region:     ${{ env.AWS_REGION }}
 
+      - name: Check task definition exists
+        id: check-api-taskdef
+        run: |
+          if aws ecs describe-task-definition --task-definition $API_TASK_FAMILY > /dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Task definition $API_TASK_FAMILY not found — skipping deploy (first deploy)"
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Download current API task definition
+        if: steps.check-api-taskdef.outputs.exists == 'true'
         run: |
           aws ecs describe-task-definition \
             --task-definition $API_TASK_FAMILY \
@@ -226,6 +237,7 @@ jobs:
 
       - name: Update API task definition with new image
         id: task-def-api
+        if: steps.check-api-taskdef.outputs.exists == 'true'
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: /tmp/api-task-definition.json
@@ -233,6 +245,7 @@ jobs:
           image:           ${{ needs.build.outputs.api_image }}
 
       - name: Deploy API to ECS
+        if: steps.check-api-taskdef.outputs.exists == 'true'
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2
         with:
           task-definition:            ${{ steps.task-def-api.outputs.task-definition }}
@@ -254,7 +267,18 @@ jobs:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github-actions-deploy
           aws-region:     ${{ env.AWS_REGION }}
 
+      - name: Check task definition exists
+        id: check-frontend-taskdef
+        run: |
+          if aws ecs describe-task-definition --task-definition $FRONTEND_TASK_FAMILY > /dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Task definition $FRONTEND_TASK_FAMILY not found — skipping deploy (first deploy)"
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Download current frontend task definition
+        if: steps.check-frontend-taskdef.outputs.exists == 'true'
         run: |
           aws ecs describe-task-definition \
             --task-definition $FRONTEND_TASK_FAMILY \
@@ -263,6 +287,7 @@ jobs:
 
       - name: Update frontend task definition with new image
         id: task-def-frontend
+        if: steps.check-frontend-taskdef.outputs.exists == 'true'
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: /tmp/frontend-task-definition.json
@@ -270,6 +295,7 @@ jobs:
           image:           ${{ needs.build.outputs.frontend_image }}
 
       - name: Deploy frontend to ECS
+        if: steps.check-frontend-taskdef.outputs.exists == 'true'
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2
         with:
           task-definition:            ${{ steps.task-def-frontend.outputs.task-definition }}
