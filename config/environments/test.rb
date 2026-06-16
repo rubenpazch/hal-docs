@@ -6,6 +6,10 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+  # Point credentials to a non-existent test file so credentials.yml.enc is never
+  # decrypted in test (EncryptedConfiguration returns "" gracefully for missing files).
+  config.credentials.content_path = Rails.root.join("config/credentials/test.yml.enc")
+
   # While tests run files are not watched, reloading is not necessary.
   config.enable_reloading = false
 
