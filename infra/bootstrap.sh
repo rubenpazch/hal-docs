@@ -147,7 +147,7 @@ SG_ALB_INT=$(create_sg "hal-docs-alb-internal" "hal-docs internal ALB");  echo "
 aws ec2 authorize-security-group-ingress --group-id "$SG_ALB"     --protocol tcp --port 80  --cidr 0.0.0.0/0        --region "$REGION" 2>/dev/null || true
 aws ec2 authorize-security-group-ingress --group-id "$SG_FE"      --protocol tcp --port 80  --source-group "$SG_ALB"     --region "$REGION" 2>/dev/null || true
 aws ec2 authorize-security-group-ingress --group-id "$SG_ALB_INT" --protocol tcp --port 80  --source-group "$SG_FE"      --region "$REGION" 2>/dev/null || true
-aws ec2 authorize-security-group-ingress --group-id "$SG_API"     --protocol tcp --port 80  --source-group "$SG_ALB_INT" --region "$REGION" 2>/dev/null || true
+aws ec2 authorize-security-group-ingress --group-id "$SG_API"     --protocol tcp --port 3000 --source-group "$SG_ALB_INT" --region "$REGION" 2>/dev/null || true
 
 # ── Internal ALB (API) ────────────────────────────────────────────────────────
 echo ""
@@ -292,7 +292,7 @@ aws ecs register-task-definition --region "$REGION" --cli-input-json "{
     \"name\": \"api\",
     \"image\": \"${API_IMAGE}\",
     \"essential\": true,
-    \"portMappings\": [{\"containerPort\": 80, \"protocol\": \"tcp\"}],
+    \"portMappings\": [{\"containerPort\": 3000, \"protocol\": \"tcp\"}],
     \"environment\": [
       {\"name\": \"RAILS_ENV\",       \"value\": \"production\"},
       {\"name\": \"RAILS_LOG_LEVEL\", \"value\": \"info\"},
@@ -376,7 +376,7 @@ else
     --desired-count 1 \
     --launch-type FARGATE \
     --network-configuration "awsvpcConfiguration={subnets=${SUBNETS_JSON},securityGroups=[\"${SG_API}\"],assignPublicIp=ENABLED}" \
-    --load-balancers "targetGroupArn=${API_TG_ARN},containerName=api,containerPort=80" \
+    --load-balancers "targetGroupArn=${API_TG_ARN},containerName=api,containerPort=3000" \
     --region "$REGION" > /dev/null
   echo "  [created] hal-docs-api service"
 fi
