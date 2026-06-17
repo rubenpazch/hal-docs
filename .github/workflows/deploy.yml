@@ -242,7 +242,7 @@ jobs:
         with:
           task-definition: /tmp/api-task-definition.json
           container-name:  api
-          image:           ${{ needs.build.outputs.api_image }}
+          image:           ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_API_REPOSITORY }}:${{ github.sha }}
 
       - name: Deploy API to ECS
         if: steps.check-api-taskdef.outputs.exists == 'true'
@@ -292,7 +292,7 @@ jobs:
         with:
           task-definition: /tmp/frontend-task-definition.json
           container-name:  frontend
-          image:           ${{ needs.build.outputs.frontend_image }}
+          image:           ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_FRONTEND_REPOSITORY }}:${{ github.sha }}
 
       - name: Deploy frontend to ECS
         if: steps.check-frontend-taskdef.outputs.exists == 'true'
