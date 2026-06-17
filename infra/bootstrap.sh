@@ -313,7 +313,7 @@ aws ecs register-task-definition --region "$REGION" --cli-input-json "{
       }
     },
     \"healthCheck\": {
-      \"command\":     [\"CMD-SHELL\", \"curl -fsS http://localhost/up || exit 1\"],
+      \"command\":     [\"CMD-SHELL\", \"curl -fsS http://localhost:3000/up || exit 1\"],
       \"interval\":    15,
       \"timeout\":     5,
       \"retries\":     3,
