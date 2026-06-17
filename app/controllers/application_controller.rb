@@ -3,7 +3,8 @@ class ApplicationController < ActionController::API
   include Pagy::Backend
   include Pundit::Authorization
 
-  before_action :authenticate_user!
+  before_action { request.format = :json }
+  before_action :authenticate_user!, unless: :devise_controller?
   after_action  :verify_authorized, unless: :devise_controller?
 
   rescue_from Pundit::NotAuthorizedError,  with: :handle_unauthorized

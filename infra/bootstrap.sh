@@ -266,6 +266,10 @@ fi
 # ── ECS Cluster ────────────────────────────────────────────────────────────────
 echo ""
 echo "==> ECS Cluster..."
+
+# Ensure the ECS service-linked role exists (required before creating services)
+aws iam create-service-linked-role --aws-service-name ecs.amazonaws.com 2>/dev/null || true
+
 aws ecs create-cluster --cluster-name "$CLUSTER" --region "$REGION" > /dev/null 2>&1 && echo "  [created] $CLUSTER" || echo "  [exists]  $CLUSTER"
 
 # ── Task definitions ───────────────────────────────────────────────────────────

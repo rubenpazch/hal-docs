@@ -33,10 +33,10 @@ export interface TrackingResult {
   tracking_number: string
   subject: string
   status: string
-  document_type: string
+  document_type: { id: number; name: string; code: string }
   received_at: string
   review_notes?: string
-  to_area?: string | null
+  to_area?: { id: number; name: string } | null
   created_at: string
   timeline: TimelineEvent[]
 }

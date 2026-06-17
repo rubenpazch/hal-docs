@@ -67,7 +67,7 @@ function TimelineDrawer({
         <div className={styles.drawerSummary}>
           <div className={styles.summaryRow}>
             <FileText size={14} />
-            <span>{submission.document_type}</span>
+            <span>{submission.document_type.name}</span>
           </div>
           <div className={styles.summaryRow}>
             <span className={styles.summaryLabel}>Asunto:</span>
@@ -85,7 +85,7 @@ function TimelineDrawer({
           {submission.to_area && (
             <div className={styles.summaryRow}>
               <Building2 size={14} />
-              <span>{submission.to_area}</span>
+              <span>{submission.to_area.name}</span>
             </div>
           )}
         </div>
@@ -313,7 +313,7 @@ export default function ConsultaTramitesPage() {
                         <td>
                           <code className={styles.trackingCode}>{r.tracking_number}</code>
                         </td>
-                        <td>{r.document_type}</td>
+                        <td>{r.document_type.name}</td>
                         <td className={styles.subjectCell}>{r.subject}</td>
                         <td>
                           <span
