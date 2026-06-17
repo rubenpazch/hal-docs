@@ -75,9 +75,8 @@ Rails.application.configure do
   # Only use :id for inspections in production.
   config.active_record.attributes_for_inspect = [ :id ]
 
-  # Allow requests from the configured app host (ALB or custom domain).
-  # Set APP_HOST env var to your domain, e.g. "api.example.com".
-  config.hosts = Array(ENV["APP_HOST"]).presence || :all
+  # Allow all hosts — traffic comes via the ALB which validates the host.
+  config.hosts = :all
 
   # Enable DNS rebinding protection and other `Host` header attacks.
   # config.hosts = [
