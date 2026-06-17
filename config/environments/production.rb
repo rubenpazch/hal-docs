@@ -76,7 +76,10 @@ Rails.application.configure do
   config.active_record.attributes_for_inspect = [ :id ]
 
   # Allow all hosts — traffic comes via the ALB which validates the host.
-  config.hosts = :all
+  # NOTE: `config.hosts = :all` is INVALID — it permits only a host named "all"
+  # and blocks everything (including the ECS health check on localhost).
+  # Clearing the list is the correct way to disable host authorization.
+  config.hosts.clear
 
   # Enable DNS rebinding protection and other `Host` header attacks.
   # config.hosts = [
