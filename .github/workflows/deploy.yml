@@ -244,6 +244,20 @@ jobs:
           container-name:  api
           image:           ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_API_REPOSITORY }}:${{ github.sha }}
 
+      - name: Wait for API service to be stable (not DRAINING)
+        if: steps.check-api-taskdef.outputs.exists == 'true'
+        run: |
+          echo "Checking service state..."
+          for i in $(seq 1 24); do
+            STATUS=$(aws ecs describe-services --cluster $ECS_CLUSTER --services $ECS_API_SERVICE \
+              --query "services[0].status" --output text 2>/dev/null || echo "MISSING")
+            echo "  Status: $STATUS"
+            if [ "$STATUS" = "ACTIVE" ] || [ "$STATUS" = "INACTIVE" ] || [ "$STATUS" = "MISSING" ] || [ "$STATUS" = "None" ]; then
+              break
+            fi
+            sleep 10
+          done
+
       - name: Deploy API to ECS
         if: steps.check-api-taskdef.outputs.exists == 'true'
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2
