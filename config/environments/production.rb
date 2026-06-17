@@ -19,7 +19,7 @@ Rails.application.configure do
   # config.asset_host = "http://assets.example.com"
 
   # Use Amazon S3 for file storage in production (IAM task role provides credentials).
-  config.active_storage.service = :amazon
+  config.active_storage.service = :local
 
   # Assume all access is through the ALB SSL-terminating reverse proxy.
   config.assume_ssl = true
