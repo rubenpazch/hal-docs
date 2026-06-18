@@ -1,28 +1,11 @@
 # Sistema de Trámite Documentario - Seeds
-
-admin = User.find_or_create_by!(email: "admin@tramite.gob.pe") do |u|
-  u.nombre = "Admin"
-  u.apellido = "Sistema"
-  u.dni = "00000001"
-  u.password = "password123"
-  u.password_confirmation = "password123"
-  u.role = :admin
-  u.cargo = "Administrador del Sistema"
-  u.area = "Tecnología de la Información"
-end
-puts "Admin: #{admin.email}"
-
-staff = User.find_or_create_by!(email: "staff@tramite.gob.pe") do |u|
-  u.nombre = "Juan"
-  u.apellido = "Pérez"
-  u.dni = "12345678"
-  u.password = "password123"
-  u.password_confirmation = "password123"
-  u.role = :staff
-  u.cargo = "Técnico Administrativo"
-  u.area = "Mesa de Partes"
-end
-puts "Staff: #{staff.email}"
+#
+# NOTE: Users are intentionally NOT created here so that passwords are never
+# committed to source control. Create users on demand with the interactive task:
+#
+#   bin/rails users:create
+#
+# (it prompts for the password without echoing it to the terminal).
 
 # Document Types — Tipos normativos con años de retención (Ley 25323 + Manual IGP)
 [
