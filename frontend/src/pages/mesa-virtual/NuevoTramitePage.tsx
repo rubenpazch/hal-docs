@@ -48,7 +48,7 @@ export default function NuevoTramitePage() {
   const submitMutation = useMutation({
     mutationFn: mesaVirtualService.submit,
     onSuccess: (data) => {
-      setTrackingNumber(data.tracking_number)
+      setTrackingNumber(data.submission.tracking_number)
       setReceivedAt(data.submission.received_at)
       setStep(2)
     },

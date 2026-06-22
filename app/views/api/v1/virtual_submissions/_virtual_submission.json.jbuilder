@@ -18,10 +18,10 @@ end
 
 json.attachments_urls submission.attachments.map { |a|
   {
-    id: a.id,
-    filename: a.filename.to_s,
+    id:           a.id,
+    filename:     a.filename.to_s,
     content_type: a.content_type,
-    byte_size: a.byte_size,
-    url: Rails.application.routes.url_helpers.rails_blob_url(a, only_path: true)
+    byte_size:    a.byte_size,
+    url:          VirtualSubmissions::AttachmentUrlService.url_for(a)
   }
 }

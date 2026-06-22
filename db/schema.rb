@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_16_200000) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_21_000003) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -60,10 +60,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_16_200000) do
     t.datetime "created_at", null: false
     t.text "description"
     t.datetime "discarded_at"
+    t.boolean "is_default", default: false, null: false
     t.string "name", null: false
     t.integer "parent_id"
     t.datetime "updated_at", null: false
     t.index ["discarded_at"], name: "index_areas_on_discarded_at"
+    t.index ["is_default"], name: "index_areas_on_is_default_unique", unique: true, where: "(is_default = true)"
     t.index ["parent_id"], name: "index_areas_on_parent_id"
   end
 
@@ -167,6 +169,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_16_200000) do
     t.index ["role", "page_key"], name: "index_role_permissions_on_role_and_page_key", unique: true
   end
 
+  create_table "system_roles", force: :cascade do |t|
+    t.string "bg_color", default: "#ede9fe", null: false
+    t.string "color", default: "#5b21b6", null: false
+    t.datetime "created_at", null: false
+    t.string "display_name", null: false
+    t.boolean "is_system", default: false, null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_system_roles_on_name", unique: true
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "apellido", default: "", null: false
     t.string "area"
@@ -181,7 +194,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_16_200000) do
     t.datetime "remember_created_at"
     t.datetime "reset_password_sent_at"
     t.string "reset_password_token"
-    t.integer "role", default: 2, null: false
+    t.string "role", default: "staff", null: false
     t.string "telefono"
     t.datetime "updated_at", null: false
     t.index ["area_id"], name: "index_users_on_area_id"

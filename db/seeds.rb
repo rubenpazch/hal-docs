@@ -7,6 +7,23 @@
 #
 # (it prompts for the password without echoing it to the terminal).
 
+# ── System Roles (must run before role_permissions) ────────────────────────
+# Only two system roles exist by default:
+#   admin         — global administrator; no functional area within the org.
+#   mesa_de_partes — all external document intake is automatically routed here.
+[
+  { name: "admin",          display_name: "Administrador",  color: "#9d174d", bg_color: "#fce7f3", is_system: true },
+  { name: "mesa_de_partes", display_name: "Mesa de Partes", color: "#0369a1", bg_color: "#e0f2fe", is_system: true },
+].each do |attrs|
+  SystemRole.find_or_create_by!(name: attrs[:name]) do |r|
+    r.display_name = attrs[:display_name]
+    r.color        = attrs[:color]
+    r.bg_color     = attrs[:bg_color]
+    r.is_system    = attrs[:is_system]
+  end
+end
+puts "System roles seeded"
+
 # Document Types — Tipos normativos con años de retención (Ley 25323 + Manual IGP)
 [
   { name: "Oficio",       code: "OFI", retention_years: 5,  description: "Comunicación externa de la institución" },
@@ -30,21 +47,15 @@
 end
 puts "Document types seeded"
 
-# Sample areas
-gerencia = Area.find_or_create_by!(name: "Gerencia General") { |a| a.area_type = :gerencia }
-[
-  "Administración",
-  "Recursos Humanos",
-  "Producción",
-  "Calidad",
-  "Logística",
-  "Contabilidad",
-  "Tecnología de la Información",
-  "Mesa de Partes",
-].each do |name|
-  Area.find_or_create_by!(name: name) { |a| a.area_type = :departamento; a.parent_id = gerencia.id }
+# ── Default Area: Mesa de Partes ───────────────────────────────────────────
+# This is the only pre-seeded area. All external documents are routed here
+# automatically. Other areas are created by administrators as needed.
+Area.find_or_create_by!(name: "Mesa de Partes") do |a|
+  a.area_type  = :departamento
+  a.is_default = true
+  a.description = "Área encargada de la recepción y registro de documentos externos"
 end
-puts "Areas seeded"
+puts "Default area seeded"
 
 # Role-based menu permissions (defaults)
 RolePermission::ROLES.each do |role|

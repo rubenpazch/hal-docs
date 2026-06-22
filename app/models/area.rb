@@ -18,6 +18,9 @@ class Area < ApplicationRecord
 
   validates :name, presence: true, uniqueness: { scope: :parent_id }
 
-  scope :roots, -> { where(parent_id: nil) }
-  scope :active, -> { kept }
+  scope :roots,        -> { where(parent_id: nil) }
+  scope :active,        -> { kept }
+  scope :default_area,  -> { find_by(is_default: true) }
+
+  validates :is_default, uniqueness: { message: "ya existe un área por defecto" }, if: :is_default?
 end

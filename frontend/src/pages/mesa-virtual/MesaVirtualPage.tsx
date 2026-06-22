@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { FileText, Search, ChevronRight, Clock, Shield, CheckCircle } from 'lucide-react'
+import { FileText, Search, ChevronRight, Clock, Shield, CheckCircle, HelpCircle } from 'lucide-react'
 import styles from './MesaVirtualPage.module.css'
 
 export default function MesaVirtualPage() {
@@ -19,9 +19,15 @@ export default function MesaVirtualPage() {
               <span className={styles.brandSub}>Sistema de Trámite Documentario</span>
             </div>
           </div>
-          <a href="/login" className={styles.staffLink}>
-            Acceso del Personal
-          </a>
+          <div className={styles.headerActions}>
+            <button className={styles.howItWorksLink} onClick={() => navigate('/mesa-virtual/como-funciona')}>
+              <HelpCircle size={14} />
+              ¿Cómo funciona?
+            </button>
+            <a href="/login" className={styles.staffLink}>
+              Acceso del Personal
+            </a>
+          </div>
         </div>
       </header>
 

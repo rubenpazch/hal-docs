@@ -97,4 +97,101 @@ RSpec.describe "Api::V1::Areas", type: :request do
       expect(area.area_memberships.count).to eq(1)
     end
   end
+
+  # ── Authentication boundary ─────────────────────────────────────────────
+  describe "authentication boundary" do
+    it_behaves_like "requires authentication" do
+      def make_request = get("/api/v1/areas", headers: { "Accept" => "application/json" })
+    end
+  end
+
+  # ── Role-based authorization ────────────────────────────────────────────
+  describe "POST /api/v1/areas — role enforcement" do
+    it_behaves_like "admin or manager required" do
+      def make_request(headers)
+        post "/api/v1/areas",
+             params: { area: { name: "Test", area_type: "departamento" } },
+             headers: headers, as: :json
+      end
+    end
+  end
+
+  describe "PATCH /api/v1/areas/:id — role enforcement" do
+    let!(:area) { create(:area) }
+
+    it_behaves_like "admin or manager required" do
+      def make_request(headers)
+        patch "/api/v1/areas/#{area.id}",
+              params: { area: { name: "Updated" } },
+              headers: headers, as: :json
+      end
+    end
+  end
+
+  describe "DELETE /api/v1/areas/:id — only admin can delete" do
+    let!(:area) { create(:area) }
+
+    it_behaves_like "admin only" do
+      def make_request(headers) = delete("/api/v1/areas/#{area.id}", headers: headers)
+    end
+  end
+
+  describe "POST /api/v1/areas/:id/add_member — role enforcement" do
+    let!(:area) { create(:area) }
+    let!(:member) { create(:user) }
+
+    it_behaves_like "admin or manager required" do
+      def make_request(headers)
+        post "/api/v1/areas/#{area.id}/add_member",
+             params: { user_id: member.id, position_role: "soporte" },
+             headers: headers, as: :json
+      end
+    end
+  end
+
+  # ── Member management ────────────────────────────────────────────────────
+  describe "PATCH /api/v1/areas/:id/members/:membership_id" do
+    let!(:area)       { create(:area) }
+    let!(:member)     { create(:user) }
+    let!(:membership) { create(:area_membership, area: area, user: member, position_role: :soporte) }
+
+    it "updates the member's position_role" do
+      patch "/api/v1/areas/#{area.id}/members/#{membership.id}",
+            params: { position_role: "jefe" },
+            headers: headers, as: :json
+      expect(response).to have_http_status(:ok)
+      expect(membership.reload.position_role).to eq("jefe")
+    end
+  end
+
+  describe "DELETE /api/v1/areas/:id/members/:membership_id" do
+    let!(:area)       { create(:area) }
+    let!(:member)     { create(:user) }
+    let!(:membership) { create(:area_membership, area: area, user: member) }
+
+    it "removes the member from the area" do
+      expect {
+        delete "/api/v1/areas/#{area.id}/members/#{membership.id}", headers: headers
+      }.to change { area.area_memberships.count }.by(-1)
+
+      expect(response).to have_http_status(:ok)
+    end
+  end
+
+  # ── Restore action ──────────────────────────────────────────────────────
+  describe "PATCH /api/v1/areas/:id/restore" do
+    let!(:area) { create(:area).tap(&:discard) }
+
+    it "reactivates a soft-deleted area" do
+      patch "/api/v1/areas/#{area.id}/restore", headers: headers
+      expect(response).to have_http_status(:ok)
+      expect(area.reload.discarded_at).to be_nil
+    end
+
+    it_behaves_like "admin only" do
+      def make_request(headers)
+        patch "/api/v1/areas/#{area.id}/restore", headers: headers
+      end
+    end
+  end
 end

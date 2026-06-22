@@ -1,7 +1,8 @@
 module Api
   module V1
-    # Admin/staff controller — requires authentication
-    class AdminVirtualSubmissionsController < ApplicationController
+    # Admin/staff controller — requires authentication.
+    # Inherits from AuthenticatedController: JWT required + Pundit enforced.
+    class AdminVirtualSubmissionsController < AuthenticatedController
       SUBMISSION_INCLUDES = [
         :document_type, :to_area,
         flows: [:from_area, :to_area, :performed_by]
@@ -9,7 +10,7 @@ module Api
 
       def index
         authorize VirtualSubmission
-        scope = VirtualSubmission.includes(*SUBMISSION_INCLUDES).order(created_at: :desc)
+        scope = submission_base_scope.order(created_at: :desc)
 
         scope = scope.where(status: params[:status]) if params[:status].present?
         scope = scope.where(submitter_type: params[:submitter_type]) if params[:submitter_type].present?
@@ -26,7 +27,7 @@ module Api
       end
 
       def show
-        @submission = VirtualSubmission.includes(*SUBMISSION_INCLUDES).find(params[:id])
+        @submission = submission_base_scope.find(params[:id])
         authorize @submission
       end
 
@@ -41,7 +42,7 @@ module Api
           }
         end
 
-        scope = VirtualSubmission.includes(*SUBMISSION_INCLUDES)
+        scope = submission_base_scope
                                  .where(to_area_id: area_id)
                                  .order(created_at: :desc)
 
@@ -60,7 +61,7 @@ module Api
       end
 
       def update_status
-        @submission = VirtualSubmission.includes(*SUBMISSION_INCLUDES).find(params[:id])
+        @submission = submission_base_scope.find(params[:id])
         authorize @submission
         from_status  = @submission.status
         from_area_id = @submission.to_area_id
@@ -88,11 +89,27 @@ module Api
             performed_at: Time.current
           )
 
-          @submission = VirtualSubmission.includes(*SUBMISSION_INCLUDES).find(@submission.id)
+          if params[:attachments].present?
+            VirtualSubmissions::AttachmentService.call(
+              submission: @submission,
+              files:      params[:attachments]
+            )
+          end
+
+          @submission = submission_base_scope.find(@submission.id)
           render :show
         else
           render json: { errors: @submission.errors.full_messages }, status: :unprocessable_entity
         end
+      end
+
+      private
+
+      # Builds the base query with all associations + attachments eagerly loaded.
+      # Active Storage selects the backend per environment:
+      #   development → Disk (storage/)   production → Amazon S3
+      def submission_base_scope
+        VirtualSubmission.includes(*SUBMISSION_INCLUDES).with_attached_attachments
       end
     end
   end

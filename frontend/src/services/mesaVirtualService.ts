@@ -48,9 +48,8 @@ export const mesaVirtualService = {
   },
 
   submit: async (payload: SubmitTramitePayload): Promise<{
-    tracking_number: string
     submission: VirtualSubmission
-    message: string
+    message?: string
   }> => {
     const formData = new FormData()
     const { attachments, ...fields } = payload

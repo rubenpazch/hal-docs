@@ -1,6 +1,6 @@
 module Api
   module V1
-    class DocumentTypesController < ApplicationController
+    class DocumentTypesController < AuthenticatedController
       def index
         authorize DocumentType
         @document_types = DocumentType.active.order(:name)

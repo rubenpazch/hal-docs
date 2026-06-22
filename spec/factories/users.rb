@@ -7,15 +7,15 @@ FactoryBot.define do
     apellido { Faker::Name.last_name }
     sequence(:dni) { |n| "1000#{n.to_s.rjust(4, '0')}" }
     telefono { "987654321" }
-    role { :staff }
+    role { "mesa_de_partes" }
     area { nil }
 
     trait :admin do
-      role { :admin }
+      role { "admin" }
     end
 
     trait :manager do
-      role { :manager }
+      role { "manager" }
     end
 
     trait :with_area do

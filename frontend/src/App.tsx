@@ -16,7 +16,10 @@ import UploadCertificatePage from '@/pages/certificates/UploadCertificatePage'
 import MesaVirtualPage from '@/pages/mesa-virtual/MesaVirtualPage'
 import NuevoTramitePage from '@/pages/mesa-virtual/NuevoTramitePage'
 import ConsultaTramitesPage from '@/pages/mesa-virtual/ConsultaTramitesPage'
+import ComoFuncionaPage from '@/pages/mesa-virtual/ComoFuncionaPage'
+import FlujoDOcumentarioPage from '@/pages/documents/FlujoDOcumentarioPage'
 import AdminMesaVirtualPage from '@/pages/admin/AdminMesaVirtualPage'
+import AdminMesaVirtualDetailPage from '@/pages/admin/AdminMesaVirtualDetailPage'
 import AccesosPage from '@/pages/admin/AccesosPage'
 import BandejaDerivadosPage from '@/pages/bandeja/BandejaDerivadosPage'
 import ProfilePage from '@/pages/profile/ProfilePage'
@@ -43,12 +46,14 @@ export default function App() {
           <Route path="/mesa-virtual" element={<MesaVirtualPage />} />
           <Route path="/mesa-virtual/nuevo" element={<NuevoTramitePage />} />
           <Route path="/mesa-virtual/consulta" element={<ConsultaTramitesPage />} />
+          <Route path="/mesa-virtual/como-funciona" element={<ComoFuncionaPage />} />
 
           {/* ── Internal system (auth required — all roles) ───────── */}
           <Route element={<ProtectedRoute />}>
             <Route element={<AppLayout />}>
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/tramites" element={<TramitesPage />} />
+              <Route path="/tramites/flujo" element={<FlujoDOcumentarioPage />} />
               <Route path="/tramites/mis-tramites" element={<MisTramitesPage />} />
               <Route path="/tramites/:id" element={<TramiteDetailPage />} />
               <Route path="/tramites/nuevo" element={<NewDocumentPage />} />
@@ -69,6 +74,7 @@ export default function App() {
               <Route path="/gestion/areas/nuevo" element={<AreaFormPage />} />
               <Route path="/gestion/areas/:id/editar" element={<AreaFormPage />} />
               <Route path="/admin/mesa-virtual" element={<AdminMesaVirtualPage />} />
+              <Route path="/admin/mesa-virtual/:id" element={<AdminMesaVirtualDetailPage />} />
               <Route path="/admin/accesos" element={<AccesosPage />} />
             </Route>
           </Route>

@@ -1,7 +1,8 @@
 module Api
   module V1
-    class DigitalCertificatesController < ApplicationController
-      # All actions are scoped to current_user — no explicit policy needed
+    class DigitalCertificatesController < AuthenticatedController
+      # All actions are scoped to current_user — no Pundit resource authorization needed.
+      # skip_after_action is an intentional declaration, not a workaround.
       skip_after_action :verify_authorized
       before_action :set_certificate, only: [:show, :destroy, :set_default]
 

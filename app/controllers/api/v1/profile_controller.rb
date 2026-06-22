@@ -1,7 +1,8 @@
 module Api
   module V1
-    class ProfileController < ApplicationController
-      # All actions operate on current_user — no separate policy lookup needed
+    class ProfileController < AuthenticatedController
+      # All actions operate on current_user — no Pundit resource authorization needed.
+      # skip_after_action is an intentional declaration, not a workaround.
       skip_after_action :verify_authorized
 
       def show

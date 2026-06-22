@@ -46,6 +46,20 @@ class Document < ApplicationRecord
   validates :recipient, presence: true
   validates :document_type, presence: true
 
+  # Ransack 4+ requires explicit allowlisting of searchable attributes.
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[
+      subject sender recipient observations document_number author_initials
+      reference_number status priority direction access_level
+      document_type_id area_id created_by_id
+      received_at due_date folio_count created_at updated_at id
+    ]
+  end
+
+  def self.ransackable_associations(_auth_object = nil)
+    %w[document_type area created_by]
+  end
+
   before_create :assign_document_number
   before_create :set_received_at
   after_commit  :compute_attachment_checksum, on: [ :create, :update ], if: :attachments_changed?

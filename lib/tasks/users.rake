@@ -4,6 +4,24 @@ require "io/console"
 
 namespace :users do
   desc "Create a user interactively (prompts for a hidden password)"
+  #
+  # Usage:
+  #   bin/rails users:create
+  #
+  # The task will prompt for:
+  #   Email          — user's email address
+  #   Nombre         — first name
+  #   Apellido       — last name
+  #   DNI            — 8-digit national ID
+  #   Role           — must be a valid system role (e.g. admin, mesa_de_partes)
+  #   Cargo          — job title (optional)
+  #   Area name      — must match an existing area name (optional)
+  #   Password       — entered hidden; confirmed twice
+  #
+  # Examples:
+  #   bin/rails users:create                        # interactive, development
+  #   RAILS_ENV=production bin/rails users:create   # production environment
+  #
   task create: :environment do
     def prompt(label, default: nil, required: true)
       suffix = default ? " [#{default}]" : ""
@@ -32,14 +50,14 @@ namespace :users do
       end
     end
 
-    roles = User.roles.keys
+    roles = SystemRole.pluck(:name)
     puts "── Create user ──────────────────────────────────────────────"
 
     email     = prompt("Email")
     nombre    = prompt("Nombre (first name)")
     apellido  = prompt("Apellido (last name)")
     dni       = prompt("DNI (8 digits)")
-    role      = prompt("Role (#{roles.join(' / ')})", default: "staff")
+    role      = prompt("Role (#{roles.join(' / ')})", default: "mesa_de_partes")
     cargo     = prompt("Cargo (job title)", required: false)
     area_name = prompt("Area name (optional)", required: false)
 

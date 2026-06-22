@@ -4,11 +4,10 @@ class ApplicationController < ActionController::API
   include Pundit::Authorization
 
   before_action { request.format = :json }
-  before_action :authenticate_user!, unless: :devise_controller?
-  after_action  :verify_authorized, unless: :devise_controller?
 
-  rescue_from Pundit::NotAuthorizedError,  with: :handle_unauthorized
-  rescue_from ActiveRecord::RecordNotFound, with: :handle_not_found
+  # Shared error handlers — available to every tier of the hierarchy.
+  rescue_from Pundit::NotAuthorizedError,             with: :handle_unauthorized
+  rescue_from ActiveRecord::RecordNotFound,           with: :handle_not_found
   rescue_from Pundit::AuthorizationNotPerformedError, with: :handle_authorization_not_performed
 
   private

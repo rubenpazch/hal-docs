@@ -1,6 +1,10 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
+# Ensure a JWT secret is available before Devise initializers run.
+# Without this, Warden::JWTAuth::UserEncoder raises "HMAC key expected to be a String"
+# whenever auth_headers_for is called in request specs.
+ENV['DEVISE_JWT_SECRET_KEY'] ||= 'test-jwt-secret-key-for-specs-only-do-not-use-in-production'
 require_relative '../config/environment'
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?

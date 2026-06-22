@@ -1,6 +1,6 @@
 module Api
   module V1
-    class RolePermissionsController < ApplicationController
+    class RolePermissionsController < AuthenticatedController
       def my_permissions
         skip_authorization  # Returns current user's own permissions — no resource-level check needed
         role = current_user.role.to_s
@@ -11,8 +11,11 @@ module Api
       def index
         authorize :role_permission, :index?
 
+        roles = RolePermission.roles
         @permissions = {}
-        RolePermission::ROLES.each do |role|
+        @roles_meta  = SystemRole.order(:created_at)
+
+        roles.each do |role|
           RolePermission.ensure_defaults!(role)
           @permissions[role] = RolePermission.map_for(role)
         end
@@ -21,13 +24,14 @@ module Api
       def update_batch
         authorize :role_permission, :update?
 
+        live_roles = RolePermission.roles
         updates = params.require(:permissions).permit(
-          RolePermission::ROLES.index_with { RolePermission::PAGE_KEYS }
+          live_roles.index_with { RolePermission::PAGE_KEYS }
         ).to_h
 
         ActiveRecord::Base.transaction do
           updates.each do |role, pages|
-            next unless RolePermission::ROLES.include?(role)
+            next unless live_roles.include?(role)
             pages.each do |page_key, allowed|
               next unless RolePermission::PAGE_KEYS.include?(page_key)
               RolePermission.find_or_initialize_by(role: role, page_key: page_key)

@@ -1,0 +1,378 @@
+/* ── Page shell ──────────────────────────────────────────────────────── */
+.page {
+  padding: 0 0 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* ── Page header ─────────────────────────────────────────────────────── */
+.pageHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.pageTitle {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 0.25rem;
+}
+
+.pageSubtitle {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ── Info banner ─────────────────────────────────────────────────────── */
+.infoBanner {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 10px;
+  padding: 0.9rem 1.1rem;
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.infoBannerIcon {
+  color: #3b82f6;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.infoBanner p {
+  font-size: 0.875rem;
+  color: #1e40af;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ── Sections ────────────────────────────────────────────────────────── */
+.section {}
+
+.sectionTitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 0.3rem;
+}
+
+.sectionSubtitle {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0 0 1rem;
+  line-height: 1.55;
+}
+
+/* ── Status grid ─────────────────────────────────────────────────────── */
+.statusGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 0.75rem;
+}
+
+.statusCard {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 0.9rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.25rem 0.65rem;
+  border-radius: 20px;
+  color: #fff;
+  width: fit-content;
+}
+
+.statusBadge[data-color='blue']   { background: #3b82f6; }
+.statusBadge[data-color='amber']  { background: #f59e0b; }
+.statusBadge[data-color='purple'] { background: #8b5cf6; }
+.statusBadge[data-color='teal']   { background: #14b8a6; }
+.statusBadge[data-color='orange'] { background: #f97316; }
+.statusBadge[data-color='gray']   { background: #9ca3af; }
+.statusBadge[data-color='green']  { background: #10b981; }
+.statusBadge[data-color='red']    { background: #ef4444; }
+
+.statusDesc {
+  font-size: 0.82rem;
+  color: #4b5563;
+  margin: 0;
+  line-height: 1.55;
+}
+
+/* ── Diagram ─────────────────────────────────────────────────────────── */
+.diagram {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.mainPath {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.mainPathNode {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.mainBubble {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.45rem 0.9rem;
+  border-radius: 8px;
+  color: #fff;
+}
+
+.mainBubble[data-color='blue']   { background: #3b82f6; }
+.mainBubble[data-color='amber']  { background: #f59e0b; }
+.mainBubble[data-color='purple'] { background: #8b5cf6; }
+.mainBubble[data-color='teal']   { background: #14b8a6; }
+
+.mainArrow {
+  color: #9ca3af;
+  display: flex;
+}
+
+.terminalRow {
+  border-top: 1px dashed #e5e7eb;
+  padding-top: 1rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.terminalLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  color: #9ca3af;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.terminalNodes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.terminalBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  color: #fff;
+}
+
+.terminalBadge[data-color='gray']   { background: #9ca3af; }
+.terminalBadge[data-color='green']  { background: #10b981; }
+.terminalBadge[data-color='red']    { background: #ef4444; }
+.terminalBadge[data-color='orange'] { background: #f97316; }
+
+/* ── Transition table ────────────────────────────────────────────────── */
+.tableWrapper {
+  overflow-x: auto;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  background: #fff;
+}
+
+.table thead th {
+  background: #f9fafb;
+  color: #374151;
+  font-weight: 600;
+  text-align: left;
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  white-space: nowrap;
+}
+
+.table tbody tr { border-bottom: 1px solid #f3f4f6; }
+.table tbody tr:last-child { border-bottom: none; }
+.table tbody tr:hover { background: #fafafa; }
+
+.table td {
+  padding: 0.6rem 1rem;
+  vertical-align: middle;
+}
+
+.tableBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.2rem 0.55rem;
+  border-radius: 20px;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.tableBadge[data-color='blue']   { background: #3b82f6; }
+.tableBadge[data-color='amber']  { background: #f59e0b; }
+.tableBadge[data-color='purple'] { background: #8b5cf6; }
+.tableBadge[data-color='teal']   { background: #14b8a6; }
+.tableBadge[data-color='orange'] { background: #f97316; }
+.tableBadge[data-color='gray']   { background: #9ca3af; }
+.tableBadge[data-color='green']  { background: #10b981; }
+.tableBadge[data-color='red']    { background: #ef4444; }
+
+.actionCode {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.18rem 0.5rem;
+  border-radius: 5px;
+  color: #fff;
+}
+
+.actionCode[data-color='blue']   { background: #3b82f6; }
+.actionCode[data-color='amber']  { background: #f59e0b; }
+.actionCode[data-color='purple'] { background: #8b5cf6; }
+.actionCode[data-color='orange'] { background: #f97316; }
+.actionCode[data-color='green']  { background: #10b981; }
+.actionCode[data-color='red']    { background: #ef4444; }
+
+.tableNote {
+  color: #6b7280;
+  max-width: 280px;
+  line-height: 1.4;
+}
+
+/* ── Actions grid ────────────────────────────────────────────────────── */
+.actionsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 0.75rem;
+}
+
+.actionCard {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 0.9rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.actionBadge {
+  display: inline-block;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  color: #fff;
+  width: fit-content;
+}
+
+.actionBadge[data-color='blue']   { background: #3b82f6; }
+.actionBadge[data-color='amber']  { background: #f59e0b; }
+.actionBadge[data-color='purple'] { background: #8b5cf6; }
+.actionBadge[data-color='orange'] { background: #f97316; }
+.actionBadge[data-color='green']  { background: #10b981; }
+.actionBadge[data-color='red']    { background: #ef4444; }
+
+.actionDesc {
+  font-size: 0.82rem;
+  color: #4b5563;
+  margin: 0;
+  line-height: 1.55;
+}
+
+/* ── Roles grid ──────────────────────────────────────────────────────── */
+.rolesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+}
+
+.roleCard {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 0.9rem 1rem;
+}
+
+.roleHeader { margin-bottom: 0.75rem; }
+
+.roleBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.3rem 0.75rem;
+  border-radius: 20px;
+  color: #fff;
+}
+
+.roleBadge[data-color='red']    { background: #ef4444; }
+.roleBadge[data-color='purple'] { background: #8b5cf6; }
+.roleBadge[data-color='blue']   { background: #3b82f6; }
+
+.roleActions {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.roleAction {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+  color: #374151;
+  line-height: 1.4;
+}
+
+.roleCheck { color: #10b981; flex-shrink: 0; margin-top: 1px; }
+
+/* ── Responsive ──────────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .mainPath { gap: 0.35rem; }
+  .mainBubble { font-size: 0.72rem; padding: 0.35rem 0.65rem; }
+  .table thead th, .table td { padding: 0.5rem 0.65rem; }
+}

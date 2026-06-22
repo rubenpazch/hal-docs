@@ -1,6 +1,6 @@
 module Api
   module V1
-    class DocumentsController < ApplicationController
+    class DocumentsController < AuthenticatedController
       before_action :set_document, only: [:show, :update, :destroy, :update_status, :validate_signature]
 
       DOCUMENT_INCLUDES = [
@@ -25,27 +25,19 @@ module Api
 
       def create
         authorize Document
-        @document = Document.new(document_params)
-        @document.created_by = current_user
+        result = Documents::RegisterService.call(
+          params:       document_params,
+          performed_by: current_user,
+          attachments:  params[:attachments].presence
+        )
 
-        if @document.save
-          attach_files(@document) if params[:attachments].present?
-
-          DocumentFlow.create!(
-            document:     @document,
-            performed_by: current_user,
-            action:       "registrado",
-            from_status:  nil,
-            to_status:    "registrado",
-            to_area:      @document.area
-          )
-
-          @document = Document.includes(*DOCUMENT_INCLUDES).find(@document.id)
+        if result.success?
+          @document = result.document
           render :show, status: :created
         else
           render json: {
             message: "No se pudo registrar el documento",
-            errors:  @document.errors.full_messages
+            errors:  result.errors
           }, status: :unprocessable_entity
         end
       end
@@ -66,29 +58,34 @@ module Api
 
       def destroy
         authorize @document
-        @document.update!(status: :anulado)
-        render json: { message: "Documento anulado exitosamente" }
+        result = Documents::TransitionService.call(
+          document:     @document,
+          to_status:    "anulado",
+          performed_by: current_user
+        )
+
+        if result.success?
+          render json: { message: "Documento anulado exitosamente" }
+        else
+          render json: { errors: result.errors }, status: :unprocessable_entity
+        end
       end
 
       def update_status
         authorize @document
-        old_status = @document.status
+        result = Documents::TransitionService.call(
+          document:     @document,
+          to_status:    params[:status],
+          performed_by: current_user,
+          observations: params[:observations],
+          to_area_id:   params[:to_area_id]
+        )
 
-        if @document.update(status: params[:status])
-          DocumentFlow.create!(
-            document:     @document,
-            performed_by: current_user,
-            action:       params[:status],
-            from_status:  old_status,
-            to_status:    params[:status],
-            from_area:    @document.area,
-            observations: params[:observations]
-          )
-
-          @document = Document.includes(*DOCUMENT_INCLUDES).find(@document.id)
+        if result.success?
+          @document = result.document
           render :show
         else
-          render json: { errors: @document.errors.full_messages }, status: :unprocessable_entity
+          render json: { errors: result.errors }, status: :unprocessable_entity
         end
       end
 
@@ -107,6 +104,7 @@ module Api
       end
 
       def search
+        authorize Document
         @documents = Document.includes(*DOCUMENT_INCLUDES)
                               .ransack(params[:q]).result
                               .order(created_at: :desc)
@@ -156,10 +154,6 @@ module Api
           :folio_count, :reference_number, :requires_response,
           :author_initials, :direction, :access_level
         )
-      end
-
-      def attach_files(document)
-        Array(params[:attachments]).each { |file| document.attachments.attach(file) }
       end
     end
   end

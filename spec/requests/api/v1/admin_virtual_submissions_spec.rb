@@ -72,4 +72,66 @@ RSpec.describe "Api::V1::AdminVirtualSubmissions", type: :request do
       expect(submission.reload.to_area_id).to eq(area.id)
     end
   end
+
+  # ── Bandeja del área ─────────────────────────────────────────────────────
+  describe "GET /api/v1/admin/bandeja/virtual_submissions" do
+    let(:manager)    { create(:user, :manager, area: area) }
+    let(:other_area) { create(:area) }
+
+    before do
+      create(:virtual_submission, document_type: doc_type, to_area: area)
+      create(:virtual_submission, document_type: doc_type, to_area: other_area)
+    end
+
+    it "returns only submissions routed to the current user's area" do
+      get "/api/v1/admin/bandeja/virtual_submissions", headers: auth_headers_for(manager)
+      expect(response).to have_http_status(:ok)
+      body = JSON.parse(response.body)
+      expect(body["submissions"]).to be_an(Array)
+      expect(body["submissions"].map { |s| s.dig("to_area", "id") }).to all(eq(area.id))
+    end
+
+    it "returns empty list when user has no area assigned" do
+      staff = create(:user)
+      get "/api/v1/admin/bandeja/virtual_submissions", headers: auth_headers_for(staff)
+      expect(response).to have_http_status(:ok)
+      expect(JSON.parse(response.body)["submissions"]).to be_empty
+    end
+
+    it "filters by status" do
+      create(:virtual_submission, document_type: doc_type, to_area: area, status: :en_revision)
+      get "/api/v1/admin/bandeja/virtual_submissions",
+          params: { status: "registrado" },
+          headers: auth_headers_for(manager)
+      body = JSON.parse(response.body)
+      expect(body["submissions"].map { |s| s["status"] }).to all(eq("registrado"))
+    end
+  end
+
+  # ── Authentication boundary ─────────────────────────────────────────────
+  describe "authentication boundary" do
+    it_behaves_like "requires authentication" do
+      def make_request
+        get "/api/v1/admin/virtual_submissions", headers: { "Accept" => "application/json" }
+      end
+    end
+
+    it_behaves_like "requires authentication" do
+      def make_request
+        get "/api/v1/admin/bandeja/virtual_submissions", headers: { "Accept" => "application/json" }
+      end
+    end
+  end
+
+  # ── Role-based authorization ────────────────────────────────────────────
+  describe "PATCH update_status — admin or manager required" do
+    let!(:submission) { create(:virtual_submission, document_type: doc_type) }
+
+    it_behaves_like "admin or manager required" do
+      def make_request(headers)
+        patch "/api/v1/admin/virtual_submissions/#{submission.id}/update_status",
+              params: { status: "en_revision" }, headers: headers, as: :json
+      end
+    end
+  end
 end

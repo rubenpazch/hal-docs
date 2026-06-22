@@ -17,8 +17,14 @@ class User < ApplicationRecord
   # Digital certificates
   has_many :digital_certificates, dependent: :destroy
 
-  # System-level role
-  enum :role, { admin: 0, manager: 1, staff: 2 }, default: :staff
+  # System-level role — stored as string, validated against system_roles table
+  validates :role, presence: true
+  validate  :role_must_exist
+
+  def admin?   = role == "admin"
+  def manager? = role == "manager"
+  def staff?   = role == "staff"
+  def has_role?(name) = role == name.to_s
 
   validates :nombre, presence: true
   validates :apellido, presence: true
@@ -30,5 +36,14 @@ class User < ApplicationRecord
 
   def primary_position
     area_memberships.active.find_by(area: area)&.position_role
+  end
+
+  private
+
+  def role_must_exist
+    return if role.blank?
+    unless SystemRole.where(name: role).exists?
+      errors.add(:role, "no es un rol válido del sistema")
+    end
   end
 end

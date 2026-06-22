@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate, useLocation } from 'react-router-dom'
 import {
   LayoutDashboard,
   FileText,
@@ -54,6 +54,7 @@ const menuItems: MenuItem[] = [
       { label: 'Mis Trámites', to: '/tramites/mis-tramites' },
       { label: 'Todos los Trámites', to: '/tramites' },
       { label: 'Por Vencer', to: '/tramites/por-vencer' },
+      { label: 'Flujo Documentario', to: '/tramites/flujo' },
     ],
   },
   {
@@ -113,9 +114,11 @@ const menuItems: MenuItem[] = [
   {
     label: 'Mesa Virtual',
     icon: <Inbox size={18} />,
-    to: '/admin/mesa-virtual',
     pageKey: 'mesa_virtual_admin',
     section: 'Administración',
+    children: [
+      { label: 'Todos los trámites', to: '/admin/mesa-virtual' },
+    ],
   },
   {
     label: 'Accesos y Permisos',
@@ -143,6 +146,13 @@ export default function Sidebar() {
   const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({})
   const { user, clearAuth, hasPermission } = useAuthStore()
   const navigate = useNavigate()
+  const location = useLocation()
+
+  // Auto-expand menus whose children match the current path
+  const isMenuOpen = (item: MenuItem) => {
+    if (openMenus[item.label] !== undefined) return openMenus[item.label]
+    return item.children?.some((c) => location.pathname.startsWith(c.to)) ?? false
+  }
 
   const toggleMenu = (label: string) => {
     setOpenMenus((prev) => ({ ...prev, [label]: !prev[label] }))
@@ -221,7 +231,7 @@ export default function Sidebar() {
             )}
             {section.items.map((item) => {
               if (item.children) {
-                const isOpen = !!openMenus[item.label]
+                const isOpen = isMenuOpen(item)
                 return (
                   <div key={item.label}>
                     <button

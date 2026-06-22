@@ -6,8 +6,13 @@ RSpec.describe RolePermission, type: :model do
   # Validations
   it { is_expected.to validate_presence_of(:role) }
   it { is_expected.to validate_presence_of(:page_key) }
-  it { is_expected.to validate_inclusion_of(:role).in_array(RolePermission::ROLES) }
   it { is_expected.to validate_inclusion_of(:page_key).in_array(RolePermission::PAGE_KEYS) }
+
+  it "validates that role exists as a system_role" do
+    rp.role = "nonexistent_role"
+    expect(rp).not_to be_valid
+    expect(rp.errors[:role]).to include("no es un rol válido del sistema")
+  end
 
   describe ".ensure_defaults!" do
     it "creates all page_key entries for a role when none exist" do

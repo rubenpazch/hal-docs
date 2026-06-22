@@ -64,4 +64,51 @@ RSpec.describe "Api::V1::DocumentTypes", type: :request do
       expect(dt.reload.is_active).to be false
     end
   end
+
+  # ── Authentication boundary ─────────────────────────────────────────────
+  describe "authentication boundary" do
+    it_behaves_like "requires authentication" do
+      def make_request = get("/api/v1/document_types", headers: { "Accept" => "application/json" })
+    end
+  end
+
+  # ── Role-based authorization (DocumentTypePolicy: admin only for writes) ─
+  describe "POST /api/v1/document_types — admin only" do
+    it_behaves_like "admin only" do
+      def make_request(headers)
+        post "/api/v1/document_types",
+             params: { document_type: { name: "Nuevo", code: "NVO", description: "Desc" } },
+             headers: headers, as: :json
+      end
+    end
+  end
+
+  describe "PATCH /api/v1/document_types/:id — admin only" do
+    let!(:dt) { create(:document_type) }
+
+    it_behaves_like "admin only" do
+      def make_request(headers)
+        patch "/api/v1/document_types/#{dt.id}",
+              params: { document_type: { name: "Changed" } },
+              headers: headers, as: :json
+      end
+    end
+  end
+
+  describe "DELETE /api/v1/document_types/:id — admin only" do
+    let!(:dt) { create(:document_type) }
+
+    it_behaves_like "admin only" do
+      def make_request(headers) = delete("/api/v1/document_types/#{dt.id}", headers: headers)
+    end
+  end
+
+  describe "GET /api/v1/document_types — any authenticated user can read" do
+    let!(:dt) { create(:document_type) }
+
+    it "allows staff to list document types" do
+      get "/api/v1/document_types", headers: auth_headers_for(create(:user))
+      expect(response).to have_http_status(:ok)
+    end
+  end
 end

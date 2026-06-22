@@ -1,43 +1,24 @@
 import { useState } from 'react'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { toast } from 'sonner'
-import { Inbox, Search, RefreshCw, Eye, CheckCircle, AlertCircle, XCircle, ChevronLeft, ChevronRight } from 'lucide-react'
+import { useQuery } from '@tanstack/react-query'
+import { useNavigate } from 'react-router-dom'
+import { Inbox, Search, RefreshCw, Eye, ChevronLeft, ChevronRight } from 'lucide-react'
 import api from '@/lib/api'
 import type { VirtualSubmission, PaginationMeta } from '@/types/document'
-import type { Area } from '@/types/area'
 import styles from './AdminMesaVirtualPage.module.css'
 
-// ─── types ──────────────────────────────────────────────────────────────────
+// ─── types ───────────────────────────────────────────────────────────────────
 interface AdminSubmissionsResponse {
   submissions: VirtualSubmission[]
   meta: PaginationMeta
 }
 
-// ─── constants ───────────────────────────────────────────────────────────────
+// ─── constants ────────────────────────────────────────────────────────────────
 const STATUS_LABEL: Record<string, string> = {
   registrado:  'Registrado',
   en_revision: 'En Revisión',
   observado:   'Observado',
   derivado:    'Derivado',
   finalizado:  'Finalizado',
-}
-
-const STATUS_NEXT: Record<string, { value: string; label: string; icon: React.ReactNode }[]> = {
-  registrado:  [
-    { value: 'en_revision', label: 'Poner en revisión', icon: <RefreshCw size={14} /> },
-  ],
-  en_revision: [
-    { value: 'observado',  label: 'Observar',  icon: <AlertCircle size={14} /> },
-    { value: 'derivado',   label: 'Derivar',   icon: <ChevronRight size={14} /> },
-    { value: 'finalizado', label: 'Finalizar', icon: <CheckCircle size={14} /> },
-  ],
-  observado: [
-    { value: 'en_revision', label: 'Retomar revisión', icon: <RefreshCw size={14} /> },
-  ],
-  derivado: [
-    { value: 'finalizado', label: 'Finalizar', icon: <CheckCircle size={14} /> },
-  ],
-  finalizado: [],
 }
 
 function formatDate(iso: string) {
@@ -50,30 +31,11 @@ function formatDate(iso: string) {
 
 // ─── component ───────────────────────────────────────────────────────────────
 export default function AdminMesaVirtualPage() {
-  const qc = useQueryClient()
+  const navigate = useNavigate()
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState('')
   const [page, setPage] = useState(1)
-  const [selected, setSelected] = useState<VirtualSubmission | null>(null)
-  const [actionModal, setActionModal] = useState<{
-    submission: VirtualSubmission
-    nextStatus: string
-    label: string
-  } | null>(null)
-  const [reviewNotes, setReviewNotes] = useState('')
-  const [toAreaId, setToAreaId] = useState<number | ''>('')
-  const [areaError, setAreaError] = useState('')
 
-  // ── fetch areas (for derivar) ────────────────────────────────────────────
-  const { data: areas = [] } = useQuery<Area[]>({
-    queryKey: ['areas-list'],
-    queryFn: async () => {
-      const { data } = await api.get('/areas', { params: { per_page: 100 } })
-      return data.areas ?? []
-    },
-  })
-
-  // ── fetch ────────────────────────────────────────────────────────────────
   const { data, isLoading } = useQuery<AdminSubmissionsResponse>({
     queryKey: ['admin-virtual-submissions', search, statusFilter, page],
     queryFn: async () => {
@@ -83,31 +45,6 @@ export default function AdminMesaVirtualPage() {
       const { data } = await api.get('/admin/virtual_submissions', { params })
       return data
     },
-  })
-
-  // ── update status mutation ───────────────────────────────────────────────
-  const updateMutation = useMutation({
-    mutationFn: ({ id, status, notes, areaId }: { id: number; status: string; notes: string; areaId?: number }) =>
-      api.patch(`/admin/virtual_submissions/${id}/update_status`, {
-        status,
-        review_notes: notes,
-        to_area_id: areaId,
-      }),
-    onSuccess: () => {
-      toast.success('Estado actualizado correctamente')
-      qc.invalidateQueries({ queryKey: ['admin-virtual-submissions'] })
-      setActionModal(null)
-      setReviewNotes('')
-      setToAreaId('')
-      setAreaError('')
-      // refresh detail if open
-      if (selected) {
-        api.get(`/admin/virtual_submissions/${selected.id}`).then(({ data }) => {
-          setSelected(data.submission)
-        })
-      }
-    },
-    onError: () => toast.error('No se pudo actualizar el estado'),
   })
 
   const submissions = data?.submissions ?? []
@@ -159,10 +96,8 @@ export default function AdminMesaVirtualPage() {
         </select>
       </div>
 
-      {/* ── Table + Detail (side-by-side when detail open) ───────── */}
-      <div className={styles.body} data-split={selected ? 'true' : 'false'}>
-
-        {/* Table */}
+      {/* ── Table ────────────────────────────────────────────────── */}
+      <div className={styles.body} data-split="false">
         <div className={styles.tableSection}>
           <div className={styles.tableWrapper}>
             {isLoading ? (
@@ -191,8 +126,9 @@ export default function AdminMesaVirtualPage() {
                   {submissions.map((s) => (
                     <tr
                       key={s.id}
-                      className={selected?.id === s.id ? styles.rowSelected : ''}
-                      onClick={() => setSelected(s)}
+                      className={styles.tableRow}
+                      onClick={() => navigate(`/admin/mesa-virtual/${s.id}`)}
+                      style={{ cursor: 'pointer' }}
                     >
                       <td>
                         <code className={styles.trackingCode}>{s.tracking_number}</code>
@@ -213,7 +149,8 @@ export default function AdminMesaVirtualPage() {
                       <td>
                         <button
                           className={styles.viewBtn}
-                          onClick={(e) => { e.stopPropagation(); setSelected(s) }}
+                          onClick={(e) => { e.stopPropagation(); navigate(`/admin/mesa-virtual/${s.id}`) }}
+                          title="Ver detalle"
                         >
                           <Eye size={14} />
                         </button>
@@ -248,149 +185,7 @@ export default function AdminMesaVirtualPage() {
             </div>
           )}
         </div>
-
-        {/* Detail panel */}
-        {selected && (
-          <div className={styles.detail}>
-            <div className={styles.detailHeader}>
-              <span className={styles.detailTracking}>{selected.tracking_number}</span>
-              <button className={styles.closeBtn} onClick={() => setSelected(null)}>
-                <XCircle size={18} />
-              </button>
-            </div>
-
-            <div className={styles.detailBody}>
-              <StatusBadge status={selected.status} />
-
-              <section className={styles.detailSection}>
-                <h3>Datos del remitente</h3>
-                <Row label="Tipo" value={selected.submitter_type === 'natural' ? 'Persona Natural' : 'Persona Jurídica'} />
-                <Row label="Nombre" value={selected.submitter_name} />
-                <Row label="Documento" value={selected.submitter_document} />
-                <Row label="Correo" value={selected.submitter_email} />
-                {selected.submitter_phone && <Row label="Teléfono" value={selected.submitter_phone} />}
-                {selected.submitter_type === 'juridica' && (
-                  <>
-                    <Row label="Razón Social" value={selected.company_name ?? '—'} />
-                    <Row label="Representante" value={selected.representative_name ?? '—'} />
-                  </>
-                )}
-              </section>
-
-              <section className={styles.detailSection}>
-                <h3>Datos del documento</h3>
-                <Row label="Tipo Doc." value={selected.document_type?.name ?? '—'} />
-                <Row label="Asunto" value={selected.subject} />
-                {selected.observations && <Row label="Observaciones" value={selected.observations} />}
-                {selected.folio_count != null && <Row label="Folios" value={String(selected.folio_count)} />}
-                <Row label="Recibido" value={formatDate(selected.received_at)} />
-                {selected.to_area && (
-                  <Row label="Derivado a" value={selected.to_area.name} />
-                )}
-              </section>
-
-              {selected.review_notes && (
-                <section className={styles.detailSection}>
-                  <h3>Notas de revisión</h3>
-                  <p className={styles.reviewNotes}>{selected.review_notes}</p>
-                </section>
-              )}
-
-              {/* Actions */}
-              {(STATUS_NEXT[selected.status] ?? []).length > 0 && (
-                <section className={styles.detailActions}>
-                  <h3>Cambiar estado</h3>
-                  <div className={styles.actionBtns}>
-                    {(STATUS_NEXT[selected.status] ?? []).map((a) => (
-                      <button
-                        key={a.value}
-                        className={styles.actionBtn}
-                        data-variant={a.value === 'finalizado' ? 'success' : a.value === 'observado' ? 'warn' : 'default'}
-                        onClick={() => {
-                          setActionModal({ submission: selected, nextStatus: a.value, label: a.label })
-                          setReviewNotes('')
-                          setToAreaId('')
-                          setAreaError('')
-                        }}
-                      >
-                        {a.icon} {a.label}
-                      </button>
-                    ))}
-                  </div>
-                </section>
-              )}
-            </div>
-          </div>
-        )}
       </div>
-
-      {/* ── Action confirmation modal ─────────────────────────────── */}
-      {actionModal && (
-        <div className={styles.modalOverlay} onClick={() => setActionModal(null)}>
-          <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-            <h3 className={styles.modalTitle}>{actionModal.label}</h3>
-            <p className={styles.modalDesc}>
-              Trámite: <strong>{actionModal.submission.tracking_number}</strong>
-            </p>
-
-            {/* ── Area selector — only shown for "derivar" ── */}
-            {actionModal.nextStatus === 'derivado' && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
-                <label className={styles.notesLabel}>Área destinataria (*)</label>
-                <select
-                  className={styles.notesInput}
-                  style={{ padding: '0.55rem 0.75rem', resize: 'none',
-                           borderColor: areaError ? '#dc3545' : undefined }}
-                  value={toAreaId}
-                  onChange={(e) => { setToAreaId(Number(e.target.value)); setAreaError('') }}
-                >
-                  <option value="">Seleccione un área…</option>
-                  {areas.map((a) => (
-                    <option key={a.id} value={a.id}>{a.name}</option>
-                  ))}
-                </select>
-                {areaError && (
-                  <span style={{ fontSize: '0.78rem', color: '#dc3545' }}>{areaError}</span>
-                )}
-              </div>
-            )}
-
-            <label className={styles.notesLabel}>
-              Notas / motivo de {actionModal.label.toLowerCase()} (opcional):
-            </label>
-            <textarea
-              className={styles.notesInput}
-              value={reviewNotes}
-              onChange={(e) => setReviewNotes(e.target.value)}
-              placeholder="Ingrese una observación o nota para el ciudadano…"
-              rows={3}
-            />
-            <div className={styles.modalActions}>
-              <button
-                className={styles.modalConfirm}
-                disabled={updateMutation.isPending}
-                onClick={() => {
-                  if (actionModal.nextStatus === 'derivado' && !toAreaId) {
-                    setAreaError('Debe seleccionar el área destinataria')
-                    return
-                  }
-                  updateMutation.mutate({
-                    id: actionModal.submission.id,
-                    status: actionModal.nextStatus,
-                    notes: reviewNotes,
-                    areaId: toAreaId ? Number(toAreaId) : undefined,
-                  })
-                }}
-              >
-                {updateMutation.isPending ? 'Guardando…' : 'Confirmar'}
-              </button>
-              <button className={styles.modalCancel} onClick={() => setActionModal(null)}>
-                Cancelar
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   )
 }
@@ -421,14 +216,5 @@ function StatusBadge({ status }: { status: string }) {
     >
       {STATUS_LABEL[status] ?? status}
     </span>
-  )
-}
-
-function Row({ label, value }: { label: string; value: string }) {
-  return (
-    <div style={{ display: 'flex', gap: 8, fontSize: '0.85rem', padding: '3px 0' }}>
-      <span style={{ color: '#6c757d', minWidth: 110, flexShrink: 0 }}>{label}:</span>
-      <span style={{ color: '#212529', wordBreak: 'break-word' }}>{value}</span>
-    </div>
   )
 }

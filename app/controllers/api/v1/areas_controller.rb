@@ -1,6 +1,6 @@
 module Api
   module V1
-    class AreasController < ApplicationController
+    class AreasController < AuthenticatedController
       before_action :set_area, only: [:show, :update, :destroy, :restore, :members, :add_member, :update_member, :remove_member]
 
       def index

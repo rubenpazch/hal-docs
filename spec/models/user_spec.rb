@@ -16,8 +16,24 @@ RSpec.describe User, type: :model do
   it { is_expected.to validate_length_of(:dni).is_equal_to(8) }
   it { is_expected.to validate_presence_of(:email) }
 
-  # Enum
-  it { is_expected.to define_enum_for(:role).with_values(admin: 0, manager: 1, staff: 2) }
+  # Role is a string validated against the system_roles table
+  it "validates role is present" do
+    user.role = nil
+    expect(user).not_to be_valid
+  end
+
+  it "validates role exists in system_roles" do
+    user.role = "nonexistent_role"
+    expect(user).not_to be_valid
+    expect(user.errors[:role]).to include("no es un rol válido del sistema")
+  end
+
+  it "accepts valid system roles" do
+    %w[admin mesa_de_partes].each do |r|
+      user.role = r
+      expect(user).to be_valid
+    end
+  end
 
   describe "#full_name" do
     it "concatenates nombre and apellido" do

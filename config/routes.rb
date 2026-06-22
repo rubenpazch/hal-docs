@@ -68,6 +68,9 @@ Rails.application.routes.draw do
       get  "role_permissions",                to: "role_permissions#index"
       patch "role_permissions/update_batch",  to: "role_permissions#update_batch"
 
+      # ── System roles (dynamic role management) ────────────────────────────
+      resources :system_roles, only: [:index, :create, :update, :destroy]
+
       # ── Mesa Virtual (public — no authentication required) ─────────────────
       scope :mesa_virtual do
         get  "document_types", to: "virtual_submissions#document_types"

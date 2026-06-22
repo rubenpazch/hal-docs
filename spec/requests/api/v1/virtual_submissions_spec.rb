@@ -85,4 +85,29 @@ RSpec.describe "Api::V1::VirtualSubmissions (public)", type: :request do
       expect(response).to have_http_status(:not_found)
     end
   end
+
+  # ── Public boundary — PublicController must never require auth ──────────
+  describe "public boundary (no authentication required)" do
+    it_behaves_like "accessible without authentication" do
+      def make_request
+        get "/api/v1/mesa_virtual/document_types", headers: { "Accept" => "application/json" }
+      end
+    end
+
+    it_behaves_like "accessible without authentication" do
+      def make_request
+        get "/api/v1/mesa_virtual/track",
+            params: { tracking_number: "VT-0000-0000000" },
+            headers: { "Accept" => "application/json" }
+      end
+    end
+
+    it_behaves_like "accessible without authentication" do
+      def make_request
+        post "/api/v1/mesa_virtual/submit",
+             params: { submission: { submitter_type: "natural" } }.to_json,
+             headers: { "Accept" => "application/json", "Content-Type" => "application/json" }
+      end
+    end
+  end
 end

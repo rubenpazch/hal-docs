@@ -17,6 +17,16 @@ else
 end
 
 # Timeline sorted in memory from pre-loaded flows — no extra queries
+json.attachments_urls submission.attachments.map { |a|
+  {
+    id:           a.id,
+    filename:     a.filename.to_s,
+    content_type: a.content_type,
+    byte_size:    a.byte_size,
+    url:          VirtualSubmissions::AttachmentUrlService.url_for(a)
+  }
+}
+
 json.timeline submission.flows.sort_by(&:performed_at) do |flow|
   json.date        flow.performed_at
   json.action      flow.action

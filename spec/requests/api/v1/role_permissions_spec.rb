@@ -21,7 +21,7 @@ RSpec.describe "Api::V1::RolePermissions", type: :request do
       get "/api/v1/role_permissions", headers: admin_headers
       expect(response).to have_http_status(:ok)
       body = JSON.parse(response.body)
-      expect(body["permissions"].keys).to match_array(RolePermission::ROLES)
+      expect(body["permissions"].keys).to match_array(RolePermission.roles)
       expect(body["page_keys"]).to match_array(RolePermission::PAGE_KEYS)
     end
 

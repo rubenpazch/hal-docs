@@ -78,6 +78,28 @@
 }
 .staffLink:hover { background: rgba(255,255,255,.15); color: #fff; }
 
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.howItWorksLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: rgba(255,255,255,.85);
+  font-size: 0.82rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+.howItWorksLink:hover { background: rgba(255,255,255,.15); color: #fff; }
+
 /* ── Hero ────────────────────────────────────────────────────────────── */
 .hero {
   background: linear-gradient(135deg, var(--mv-primary) 0%, var(--mv-accent) 100%);
