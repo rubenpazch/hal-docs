@@ -46,7 +46,7 @@ gem "pundit"
 gem "blueprinter"
 
 # Pagination
-gem "pagy", "~> 9.3"
+gem "pagy", "~> 43.5"
 
 # File uploads (Active Storage is built-in, but mini_magick for image processing)
 gem "mini_magick"
