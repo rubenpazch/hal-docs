@@ -6,7 +6,7 @@ import {
 } from 'lucide-react'
 import { toast } from 'sonner'
 import api from '@/lib/api'
-import type { DocumentBundle, BundlesResponse, Archivo } from '@/types/archivo'
+import type { BundlesResponse, Archivo } from '@/types/archivo'
 import styles from './BundlePanel.module.css'
 
 interface Props {
