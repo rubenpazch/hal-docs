@@ -192,11 +192,22 @@ jobs:
           echo "Migration task: $TASK_ARN"
           aws ecs wait tasks-stopped --cluster $ECS_CLUSTER --tasks "$TASK_ARN"
 
+          # Extract task ID for CloudWatch log lookup
+          TASK_ID="${TASK_ARN##*/}"
+
           EXIT_CODE=$(aws ecs describe-tasks \
             --cluster $ECS_CLUSTER \
             --tasks "$TASK_ARN" \
             --query 'tasks[0].containers[0].exitCode' \
             --output text)
+
+          # Always print logs so failures are diagnosable in CI
+          echo "--- Migration logs (CloudWatch) ---"
+          aws logs get-log-events \
+            --log-group-name /ecs/hal-docs-api \
+            --log-stream-name "api/$TASK_ID" \
+            --output text \
+            --query 'events[*].message' 2>/dev/null || echo "(no logs yet — task may have failed before logging)"
 
           if [ "$EXIT_CODE" != "0" ]; then
             echo "Migration task exited with code $EXIT_CODE"
