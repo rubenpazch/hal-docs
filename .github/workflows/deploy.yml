@@ -310,6 +310,13 @@ jobs:
             --query taskDefinition \
             > /tmp/frontend-task-definition.json
 
+      - name: Patch API_URL in frontend task definition
+        if: steps.check-frontend-taskdef.outputs.exists == 'true'
+        run: |
+          jq '(.containerDefinitions[] | select(.name == "frontend") | .environment[] | select(.name == "API_URL")).value = "http://hal-docs-frontend-public-159288486.us-east-1.elb.amazonaws.com"' \
+            /tmp/frontend-task-definition.json > /tmp/frontend-task-definition-patched.json
+          mv /tmp/frontend-task-definition-patched.json /tmp/frontend-task-definition.json
+
       - name: Update frontend task definition with new image
         id: task-def-frontend
         if: steps.check-frontend-taskdef.outputs.exists == 'true'
