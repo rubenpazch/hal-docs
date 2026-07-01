@@ -56,3 +56,21 @@ json.attachments_urls document.attachments.map { |a|
     url: Rails.application.routes.url_helpers.rails_blob_url(a, only_path: true)
   }
 }
+
+# Pre-signed archivos linked from the file repository
+json.archivos document.archivos do |archivo|
+  json.extract! archivo, :id, :nombre, :estado, :firmado_at
+  json.document_type_name archivo.document_type.name
+  json.uploader_name      archivo.uploader.full_name
+  if archivo.file.attached?
+    json.file do
+      json.filename     archivo.file.filename.to_s
+      json.content_type archivo.file.content_type
+      json.byte_size    archivo.file.byte_size
+      json.url          Rails.application.routes.url_helpers.rails_blob_url(archivo.file, only_path: true)
+    end
+  else
+    json.file nil
+  end
+end
+

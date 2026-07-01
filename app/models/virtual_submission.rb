@@ -30,6 +30,7 @@ class VirtualSubmission < ApplicationRecord
 
   before_validation :generate_tracking_number, on: :create
   before_create     :set_received_at
+  before_create     :assign_default_area
 
   private
 
@@ -44,5 +45,9 @@ class VirtualSubmission < ApplicationRecord
 
   def set_received_at
     self.received_at ||= Time.current
+  end
+
+  def assign_default_area
+    self.to_area ||= Area.default_area
   end
 end

@@ -5,6 +5,7 @@ module Api
 
       DOCUMENT_INCLUDES = [
         :document_type, :area, :created_by,
+        :archivos,
         document_flows: [:performed_by, :from_area, :to_area]
       ].freeze
 
@@ -33,6 +34,8 @@ module Api
 
         if result.success?
           @document = result.document
+          link_archivos(@document) if params[:archivo_ids].present?
+          @document = Document.includes(*DOCUMENT_INCLUDES).find(@document.id)
           render :show, status: :created
         else
           render json: {
@@ -46,6 +49,7 @@ module Api
         authorize @document
         if @document.update(document_params)
           attach_files(@document) if params[:attachments].present?
+          link_archivos(@document) if params[:archivo_ids].present?
           @document = Document.includes(*DOCUMENT_INCLUDES).find(@document.id)
           render :show
         else
@@ -154,6 +158,18 @@ module Api
           :folio_count, :reference_number, :requires_response,
           :author_initials, :direction, :access_level
         )
+      end
+
+      def attach_files(document)
+        Array(params[:attachments]).each { |file| document.attachments.attach(file) }
+      end
+
+      def link_archivos(document)
+        ids = Array(params[:archivo_ids]).map(&:to_i).uniq
+        archivos = Archivo.where(id: ids)
+        archivos.each do |archivo|
+          document.document_archivos.find_or_create_by!(archivo: archivo)
+        end
       end
     end
   end

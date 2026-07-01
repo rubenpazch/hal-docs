@@ -7,7 +7,11 @@ class Document < ApplicationRecord
 
   has_many :document_flows, dependent: :destroy
 
-  # Active Storage attachments
+  # Linked file-repository entries (pre-uploaded / pre-signed archivos)
+  has_many :document_archivos, dependent: :destroy
+  has_many :archivos, through: :document_archivos
+
+  # Active Storage attachments (files uploaded directly on the tramite)
   has_many_attached :attachments
 
   enum :priority, {

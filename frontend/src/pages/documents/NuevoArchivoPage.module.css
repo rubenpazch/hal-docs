@@ -1,0 +1,185 @@
+.page {
+  max-width: 680px;
+}
+
+/* Page header */
+.pageHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.backBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #6b7280;
+  transition: border-color 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+.backBtn:hover { border-color: #4f46e5; color: #4f46e5; }
+
+.pageHeaderText h1 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 2px;
+}
+.pageHeaderText p {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* Card */
+.card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 24px 28px;
+}
+
+.sectionTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 18px;
+}
+
+/* Form */
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.fullWidth { grid-column: 1 / -1; }
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.formField label {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #374151;
+}
+.formField label span { color: #dc2626; margin-left: 2px; }
+
+.formField input,
+.formField select {
+  padding: 10px 13px;
+  border: 1px solid #d1d5db;
+  border-radius: 9px;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  background: #fff;
+  color: #111827;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.formField input:focus,
+.formField select:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.inputError { border-color: #dc2626 !important; background: #fff5f5; }
+.fieldError { font-size: 12px; color: #dc2626; }
+
+/* Dropzone */
+.dropzone {
+  border: 2px dashed #d1d5db;
+  border-radius: 10px;
+  padding: 36px 20px;
+  text-align: center;
+  cursor: pointer;
+  background: #fafafa;
+  color: #9ca3af;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transition: border-color 0.15s, background 0.15s;
+}
+.dropzone:hover, .dropzoneActive { border-color: #4f46e5; background: #f0f0ff; color: #4f46e5; }
+
+.dropzoneTitle { font-size: 14px; font-weight: 600; color: #374151; margin: 0; }
+.dropzoneHint { font-size: 12px; color: #9ca3af; margin: 0; }
+
+/* File preview */
+.filePreview {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: #f0f0ff;
+  border: 1px solid #c7d2fe;
+  border-radius: 9px;
+}
+.fileIcon { color: #4f46e5; flex-shrink: 0; }
+.fileInfo { flex: 1; overflow: hidden; }
+.fileName { display: block; font-size: 13px; font-weight: 600; color: #111827; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fileSize { font-size: 12px; color: #6b7280; }
+.removeFile {
+  display: flex; align-items: center; justify-content: center;
+  width: 26px; height: 26px;
+  background: none; border: 1px solid #e5e7eb; border-radius: 6px;
+  cursor: pointer; color: #9ca3af; transition: all 0.15s;
+}
+.removeFile:hover { background: #fee2e2; border-color: #fca5a5; color: #dc2626; }
+
+/* Footer */
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #f3f4f6;
+}
+
+.btnCancel {
+  padding: 9px 20px;
+  border: 1px solid #e5e7eb;
+  border-radius: 9px;
+  background: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  color: #6b7280;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.btnCancel:hover { border-color: #9ca3af; }
+.btnCancel:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btnSubmit {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 22px;
+  border: none;
+  border-radius: 9px;
+  background: #4f46e5;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btnSubmit:hover { background: #4338ca; }
+.btnSubmit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+.spin { animation: spin 0.8s linear infinite; }

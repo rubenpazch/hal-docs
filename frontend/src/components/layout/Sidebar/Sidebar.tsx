@@ -62,8 +62,8 @@ const menuItems: MenuItem[] = [
     icon: <Files size={18} />,
     pageKey: 'documentos',
     children: [
-      { label: 'Cargar Documento', to: '/documentos/cargar' },
-      { label: 'Todos los Documentos', to: '/documentos' },
+      { label: 'Repositorio', to: '/documentos' },
+      { label: 'Subir Documento', to: '/documentos/nuevo' },
     ],
   },
   {

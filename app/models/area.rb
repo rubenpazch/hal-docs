@@ -20,7 +20,10 @@ class Area < ApplicationRecord
 
   scope :roots,        -> { where(parent_id: nil) }
   scope :active,        -> { kept }
-  scope :default_area,  -> { find_by(is_default: true) }
+
+  def self.default_area
+    find_by(is_default: true)
+  end
 
   validates :is_default, uniqueness: { message: "ya existe un área por defecto" }, if: :is_default?
 end

@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -12,9 +12,13 @@ import {
   X,
   Loader2,
   Hash,
+  Search,
+  CheckCircle,
+  Clock,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import api from '@/lib/api'
+import type { Archivo } from '@/types/archivo'
 import styles from './NewDocumentPage.module.css'
 
 // ── Types ──────────────────────────────────────────────────────────────
@@ -65,6 +69,37 @@ export default function NewDocumentPage() {
   const navigate = useNavigate()
   const [files, setFiles] = useState<File[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
+
+  // Archivo linking state
+  const [archivoSearch, setArchivoSearch] = useState('')
+  const [debouncedArchivoSearch, setDebouncedArchivoSearch] = useState('')
+  const [selectedArchivos, setSelectedArchivos] = useState<Archivo[]>([])
+  const [archivoDropdownOpen, setArchivoDropdownOpen] = useState(false)
+  const archivoDebounceRef = useRef<ReturnType<typeof setTimeout>>(0 as unknown as ReturnType<typeof setTimeout>)
+
+  const handleArchivoSearch = (v: string) => {
+    setArchivoSearch(v)
+    setArchivoDropdownOpen(true)
+    clearTimeout(archivoDebounceRef.current)
+    archivoDebounceRef.current = setTimeout(() => setDebouncedArchivoSearch(v), 350)
+  }
+
+  const { data: archivoResults } = useQuery({
+    queryKey: ['archivos-search', debouncedArchivoSearch],
+    queryFn: async () => {
+      const res = await api.get<{ archivos: Archivo[] }>('/archivos', {
+        params: debouncedArchivoSearch ? { q: debouncedArchivoSearch } : {},
+      })
+      return res.data.archivos
+    },
+    enabled: archivoDropdownOpen,
+  })
+
+  const toggleArchivo = (a: Archivo) => {
+    setSelectedArchivos((prev) =>
+      prev.find((x) => x.id === a.id) ? prev.filter((x) => x.id !== a.id) : [...prev, a]
+    )
+  }
 
   const {
     register,
@@ -134,6 +169,11 @@ export default function NewDocumentPage() {
       // Append files
       files.forEach((file) => {
         formData.append('attachments[]', file)
+      })
+
+      // Append linked archivos
+      selectedArchivos.forEach((a) => {
+        formData.append('archivo_ids[]', String(a.id))
       })
 
       await api.post('/documents', formData, {
@@ -346,6 +386,69 @@ export default function NewDocumentPage() {
                       <X size={14} />
                     </button>
                   </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Archivo repository linking section */}
+          <div className={styles.cardSection}>
+            <p className={styles.sectionTitle}>Vincular documentos del repositorio</p>
+            <p className={styles.sectionHint}>
+              Asocia archivos ya subidos al repositorio (opcional). Aparecerán vinculados al trámite.
+            </p>
+
+            <div className={styles.archivoSearchWrap}>
+              <div className={styles.archivoSearchBar}>
+                <Search size={14} className={styles.archivoSearchIcon} />
+                <input
+                  className={styles.archivoSearchInput}
+                  placeholder="Buscar por nombre o tipo..."
+                  value={archivoSearch}
+                  onChange={(e) => handleArchivoSearch(e.target.value)}
+                  onFocus={() => setArchivoDropdownOpen(true)}
+                  onBlur={() => setTimeout(() => setArchivoDropdownOpen(false), 200)}
+                />
+              </div>
+
+              {archivoDropdownOpen && archivoResults && archivoResults.length > 0 && (
+                <div className={styles.archivoDropdown}>
+                  {archivoResults.slice(0, 8).map((a) => {
+                    const selected = !!selectedArchivos.find((x) => x.id === a.id)
+                    return (
+                      <button
+                        key={a.id}
+                        type="button"
+                        className={`${styles.archivoOption} ${selected ? styles.archivoOptionSelected : ''}`}
+                        onMouseDown={() => toggleArchivo(a)}
+                      >
+                        <span className={styles.archivoOptionCode}>{a.document_type.code}</span>
+                        <span className={styles.archivoOptionName}>{a.nombre}</span>
+                        {a.estado === 'firmado' ? (
+                          <CheckCircle size={12} className={styles.iconFirmado} />
+                        ) : (
+                          <Clock size={12} className={styles.iconBorrador} />
+                        )}
+                      </button>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
+
+            {selectedArchivos.length > 0 && (
+              <div className={styles.archivoChips}>
+                {selectedArchivos.map((a) => (
+                  <span key={a.id} className={styles.archivoChip}>
+                    {a.nombre}
+                    <button
+                      type="button"
+                      className={styles.archivoChipRemove}
+                      onClick={() => toggleArchivo(a)}
+                    >
+                      <X size={11} />
+                    </button>
+                  </span>
                 ))}
               </div>
             )}

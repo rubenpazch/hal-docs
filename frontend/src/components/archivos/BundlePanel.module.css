@@ -1,0 +1,324 @@
+.panel {
+  width: 300px;
+  flex-shrink: 0;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 140px);
+  overflow: hidden;
+}
+
+/* Header */
+.panelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #f3f4f6;
+  flex-shrink: 0;
+}
+
+.panelTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.countBadge {
+  background: #e0e7ff;
+  color: #4f46e5;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 20px;
+}
+
+.panelActions {
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+}
+
+.btnNewGroup {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  background: #4f46e5;
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btnNewGroup:hover { background: #4338ca; }
+
+.btnClose {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: none;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #9ca3af;
+  transition: all 0.15s;
+}
+.btnClose:hover { background: #fee2e2; color: #dc2626; border-color: #fca5a5; }
+
+/* Selection banner */
+.selectionBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4rem 0.75rem;
+  background: #fef3c7;
+  border-bottom: 1px solid #fde68a;
+  font-size: 0.78rem;
+  color: #92400e;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.clearSel {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #b45309;
+  display: flex;
+  padding: 0;
+}
+
+/* Create form */
+.createForm {
+  padding: 0.75rem;
+  border-bottom: 1px solid #f3f4f6;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+.input {
+  width: 100%;
+  padding: 7px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 7px;
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+  background: #fff;
+  color: #111827;
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+}
+.input:focus { border-color: #4f46e5; }
+
+.inlineInput {
+  flex: 1;
+  padding: 3px 7px;
+  font-size: 0.82rem;
+}
+
+.createFormActions {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.btnSave {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px;
+  background: #4f46e5;
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btnSave:hover:not(:disabled) { background: #4338ca; }
+.btnSave:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btnCancelSmall {
+  flex: 1;
+  padding: 6px;
+  background: none;
+  border: 1px solid #e5e7eb;
+  border-radius: 7px;
+  font-size: 0.8rem;
+  color: #6b7280;
+  cursor: pointer;
+}
+.btnCancelSmall:hover { background: #f9fafb; }
+
+/* List */
+.list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.loading,
+.empty {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: #9ca3af;
+  font-size: 0.83rem;
+}
+
+/* Bundle item */
+.bundle {
+  border-bottom: 1px solid #f3f4f6;
+}
+.bundle:last-child { border-bottom: none; }
+
+.bundleRow {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.6rem 0.75rem;
+}
+
+.expandBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #9ca3af;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.bundleName {
+  flex: 1;
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: #1e293b;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bundleCount {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #4f46e5;
+  background: #eef2ff;
+  padding: 1px 6px;
+  border-radius: 20px;
+  flex-shrink: 0;
+}
+
+.bundleActions {
+  display: flex;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.btnAddTo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  background: #d1fae5;
+  border: 1px solid #6ee7b7;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #065f46;
+  transition: all 0.15s;
+}
+.btnAddTo:hover:not(:disabled) { background: #a7f3d0; }
+.btnAddTo:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btnIconSm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  background: none;
+  border: 1px solid #e5e7eb;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #9ca3af;
+  transition: all 0.15s;
+}
+.btnIconSm:hover { background: #f3f4f6; color: #374151; }
+.btnDanger:hover { background: #fee2e2; border-color: #fca5a5; color: #dc2626; }
+.btnIconSm:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Archivo list inside expanded bundle */
+.archivoList {
+  padding: 0.25rem 0.75rem 0.75rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.emptyGroup {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  margin: 0;
+  font-style: italic;
+}
+
+.archivoItem {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.4rem;
+  background: #f8fafc;
+  border: 1px solid #f1f5f9;
+  border-radius: 6px;
+}
+
+.iconFirmado { color: #059669; flex-shrink: 0; }
+.iconBorrador { color: #d97706; flex-shrink: 0; }
+
+.archivoItemCode {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #6d28d9;
+  background: #ede9fe;
+  padding: 1px 4px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.archivoItemName {
+  flex: 1;
+  font-size: 0.75rem;
+  color: #374151;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.archivoItemSize {
+  font-size: 0.68rem;
+  color: #94a3b8;
+  flex-shrink: 0;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+.spin { animation: spin 0.8s linear infinite; }

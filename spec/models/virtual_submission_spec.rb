@@ -56,4 +56,30 @@ RSpec.describe VirtualSubmission, type: :model do
       expect(submission).not_to be_valid
     end
   end
+
+  describe "#assign_default_area (before_create)" do
+    context "when a default area exists" do
+      let!(:mesa_de_partes) { create(:area, :default) }
+
+      it "assigns the default area on create when to_area is nil" do
+        submission.to_area = nil
+        submission.save!
+        expect(submission.to_area).to eq(mesa_de_partes)
+      end
+
+      it "does not override an explicitly set to_area" do
+        other_area = create(:area)
+        submission.to_area = other_area
+        submission.save!
+        expect(submission.to_area).to eq(other_area)
+      end
+    end
+
+    context "when no default area is configured" do
+      it "leaves to_area as nil without raising" do
+        expect { submission.save! }.not_to raise_error
+        expect(submission.to_area).to be_nil
+      end
+    end
+  end
 end

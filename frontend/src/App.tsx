@@ -6,6 +6,8 @@ import DashboardPage from '@/pages/dashboard/DashboardPage'
 import UsersPage from '@/pages/users/UsersPage'
 import UserFormPage from '@/pages/users/UserFormPage'
 import NewDocumentPage from '@/pages/documents/NewDocumentPage'
+import ArchivosPage from '@/pages/documents/ArchivosPage'
+import NuevoArchivoPage from '@/pages/documents/NuevoArchivoPage'
 import TramitesPage from '@/pages/tramites/TramitesPage'
 import TramiteDetailPage from '@/pages/tramites/TramiteDetailPage'
 import MisTramitesPage from '@/pages/tramites/MisTramitesPage'
@@ -57,6 +59,8 @@ export default function App() {
               <Route path="/tramites/mis-tramites" element={<MisTramitesPage />} />
               <Route path="/tramites/:id" element={<TramiteDetailPage />} />
               <Route path="/tramites/nuevo" element={<NewDocumentPage />} />
+              <Route path="/documentos" element={<ArchivosPage />} />
+              <Route path="/documentos/nuevo" element={<NuevoArchivoPage />} />
               <Route path="/mis-certificados" element={<CertificatesPage />} />
               <Route path="/mis-certificados/nuevo" element={<UploadCertificatePage />} />
               <Route path="/bandeja/derivados" element={<BandejaDerivadosPage />} />

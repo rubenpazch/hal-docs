@@ -78,6 +78,53 @@ RSpec.describe DocumentSigningService do
     it { expect(result.signed_data).not_to be_nil }
   end
 
+  # ------------------------------------------------------------------ CAdES-BES attribute verification
+
+  describe ".call produces CAdES-BES signed attributes" do
+    # Parse signed attributes from the raw DER output.
+    # OpenSSL::ASN1::ObjectId#value returns the long name for known OIDs,
+    # so use #oid to always get the dotted-decimal representation.
+    def extract_oids(signed_data_der)
+      content_info = OpenSSL::ASN1.decode(signed_data_der)
+      signed_data  = content_info.value[1].value[0]   # unwrap explicit [0] tag
+      signer_info  = signed_data.value[4].value[0]    # signerInfos SET → first SignerInfo
+      # signedAttrs is [0] IMPLICIT; re-tag as SET (0x31) before parsing
+      sa_der       = signer_info.value[3].to_der
+      set_der      = "\x31".b + sa_der[1..]
+      OpenSSL::ASN1.decode(set_der).value.map { |attr| attr.value[0].oid }
+    end
+
+    subject(:oids) do
+      result = described_class.call(file_data: file_content, p12_data: p12_data, password: "secret")
+      extract_oids(result.signed_data)
+    end
+
+    it "contains the signing-certificate-v2 attribute (id-aa-signingCertificateV2)" do
+      expect(oids).to include(DocumentSigningService::SIGNING_CERT_V2_OID)
+    end
+
+    it "contains the content-type attribute" do
+      expect(oids).to include(DocumentSigningService::CONTENT_TYPE_OID)
+    end
+
+    it "contains the message-digest attribute" do
+      expect(oids).to include(DocumentSigningService::MESSAGE_DIGEST_OID)
+    end
+
+    it "message-digest matches SHA-256 of the file content" do
+      result   = described_class.call(file_data: file_content, p12_data: p12_data, password: "secret")
+      ci       = OpenSSL::ASN1.decode(result.signed_data)
+      sd       = ci.value[1].value[0]
+      si       = sd.value[4].value[0]
+      sa_der   = "\x31".b + si.value[3].to_der[1..]
+      attrs    = OpenSSL::ASN1.decode(sa_der).value
+      md_attr  = attrs.find { |a| a.value[0].oid == DocumentSigningService::MESSAGE_DIGEST_OID }
+      embedded = md_attr.value[1].value[0].value
+      expected = OpenSSL::Digest::SHA256.digest(file_content)
+      expect(embedded).to eq(expected)
+    end
+  end
+
   # ------------------------------------------------------------------ wrong password
 
   describe ".call with wrong password" do

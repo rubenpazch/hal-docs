@@ -40,6 +40,25 @@ RSpec.describe "Api::V1::VirtualSubmissions (public)", type: :request do
       expect(body["submission"]["tracking_number"]).to match(/\AVT-/)
     end
 
+    context "when a default area (Mesa de Partes) exists" do
+      let!(:mesa_de_partes) { create(:area, :default) }
+
+      it "assigns the default area as initial to_area" do
+        post "/api/v1/mesa_virtual/submit", params: valid_params, headers: json_headers, as: :json
+        expect(response).to have_http_status(:created)
+        saved = VirtualSubmission.last
+        expect(saved.to_area).to eq(mesa_de_partes)
+      end
+    end
+
+    context "when no default area is configured" do
+      it "still creates the submission successfully with to_area nil" do
+        post "/api/v1/mesa_virtual/submit", params: valid_params, headers: json_headers, as: :json
+        expect(response).to have_http_status(:created)
+        expect(VirtualSubmission.last.to_area).to be_nil
+      end
+    end
+
     it "returns 422 with missing required fields" do
       post "/api/v1/mesa_virtual/submit",
            params: { submission: { submitter_type: "natural" } },

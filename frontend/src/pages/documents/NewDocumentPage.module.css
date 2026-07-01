@@ -311,3 +311,133 @@
     padding: 14px 16px;
   }
 }
+
+/* ── Archivo linking ──────────────────────────────────────────────────── */
+.sectionHint {
+  font-size: 12px;
+  color: #9ca3af;
+  margin: -12px 0 14px;
+}
+
+.archivoSearchWrap {
+  position: relative;
+}
+
+.archivoSearchBar {
+  position: relative;
+}
+
+.archivoSearchIcon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  pointer-events: none;
+}
+
+.archivoSearchInput {
+  width: 100%;
+  padding: 9px 12px 9px 30px;
+  border: 1px solid #d1d5db;
+  border-radius: 9px;
+  font-size: 13.5px;
+  font-family: inherit;
+  outline: none;
+  color: #111827;
+  background: #fff;
+  box-sizing: border-box;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.archivoSearchInput:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.archivoDropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  z-index: 50;
+  overflow: hidden;
+}
+
+.archivoOption {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 9px 14px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 13px;
+  color: #374151;
+  text-align: left;
+  transition: background 0.1s;
+}
+.archivoOption:hover { background: #f3f4f6; }
+.archivoOptionSelected { background: #eef2ff; }
+.archivoOptionSelected:hover { background: #e0e7ff; }
+
+.archivoOptionCode {
+  font-size: 11px;
+  font-weight: 700;
+  color: #4f46e5;
+  background: #eef2ff;
+  padding: 2px 6px;
+  border-radius: 5px;
+  flex-shrink: 0;
+}
+
+.archivoOptionName {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.iconFirmado { color: #059669; flex-shrink: 0; }
+.iconBorrador { color: #d97706; flex-shrink: 0; }
+
+/* Chips */
+.archivoChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.archivoChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 8px 4px 10px;
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #4338ca;
+}
+
+.archivoChipRemove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #818cf8;
+  border-radius: 50%;
+  transition: background 0.1s, color 0.1s;
+}
+.archivoChipRemove:hover { background: #c7d2fe; color: #4338ca; }
+

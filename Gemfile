@@ -57,6 +57,9 @@ gem "aws-sdk-s3", require: false
 # Environment variables
 gem "dotenv-rails"
 
+# PDF digital signatures (PAdES)
+gem "hexapdf"
+
 # HTTP requests (for external integrations)
 gem "faraday"
 gem "faraday-multipart"

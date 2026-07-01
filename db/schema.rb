@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_21_000003) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_21_000006) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -42,6 +42,22 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_21_000003) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "archivos", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "document_type_id", null: false
+    t.integer "estado", default: 0, null: false
+    t.datetime "firmado_at"
+    t.string "nombre", null: false
+    t.integer "signature_page"
+    t.decimal "signature_x", precision: 5, scale: 2
+    t.decimal "signature_y", precision: 5, scale: 2
+    t.datetime "updated_at", null: false
+    t.bigint "uploader_id", null: false
+    t.index ["document_type_id"], name: "index_archivos_on_document_type_id"
+    t.index ["estado"], name: "index_archivos_on_estado"
+    t.index ["uploader_id"], name: "index_archivos_on_uploader_id"
+  end
+
   create_table "area_memberships", force: :cascade do |t|
     t.bigint "area_id", null: false
     t.datetime "created_at", null: false
@@ -69,6 +85,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_21_000003) do
     t.index ["parent_id"], name: "index_areas_on_parent_id"
   end
 
+  create_table "bundle_archivos", force: :cascade do |t|
+    t.bigint "archivo_id", null: false
+    t.datetime "created_at", null: false
+    t.bigint "document_bundle_id", null: false
+    t.integer "position", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.index ["archivo_id"], name: "index_bundle_archivos_on_archivo_id"
+    t.index ["document_bundle_id", "archivo_id"], name: "idx_bundle_archivos_unique", unique: true
+    t.index ["document_bundle_id"], name: "index_bundle_archivos_on_document_bundle_id"
+  end
+
   create_table "digital_certificates", force: :cascade do |t|
     t.string "alias_name", null: false
     t.datetime "created_at", null: false
@@ -89,6 +116,25 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_21_000003) do
     t.index ["discarded_at"], name: "index_digital_certificates_on_discarded_at"
     t.index ["user_id", "is_default"], name: "index_digital_certificates_on_user_id_and_is_default"
     t.index ["user_id"], name: "index_digital_certificates_on_user_id"
+  end
+
+  create_table "document_archivos", force: :cascade do |t|
+    t.bigint "archivo_id", null: false
+    t.datetime "created_at", null: false
+    t.bigint "document_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["archivo_id"], name: "index_document_archivos_on_archivo_id"
+    t.index ["document_id", "archivo_id"], name: "index_document_archivos_on_document_id_and_archivo_id", unique: true
+    t.index ["document_id"], name: "index_document_archivos_on_document_id"
+  end
+
+  create_table "document_bundles", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "creator_id", null: false
+    t.text "description"
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+    t.index ["creator_id"], name: "index_document_bundles_on_creator_id"
   end
 
   create_table "document_flows", force: :cascade do |t|
@@ -262,9 +308,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_21_000003) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "archivos", "document_types"
+  add_foreign_key "archivos", "users", column: "uploader_id"
   add_foreign_key "area_memberships", "areas"
   add_foreign_key "area_memberships", "users"
+  add_foreign_key "bundle_archivos", "archivos"
+  add_foreign_key "bundle_archivos", "document_bundles"
   add_foreign_key "digital_certificates", "users"
+  add_foreign_key "document_archivos", "archivos"
+  add_foreign_key "document_archivos", "documents"
+  add_foreign_key "document_bundles", "users", column: "creator_id"
   add_foreign_key "document_flows", "areas", column: "from_area_id"
   add_foreign_key "document_flows", "areas", column: "to_area_id"
   add_foreign_key "document_flows", "documents"

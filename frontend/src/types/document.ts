@@ -91,6 +91,7 @@ export interface Document {
   area?: DocumentArea
   created_by: DocumentUser
   attachments_urls: AttachmentUrl[]
+  archivos: import('./archivo').ArchivoLinked[]
   document_flows?: DocumentFlow[]
 }
 

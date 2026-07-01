@@ -25,6 +25,21 @@ Rails.application.routes.draw do
         end
       end
 
+      # File repository — archivos pre-uploaded and optionally signed
+      resources :archivos, only: [:index, :show, :create, :destroy] do
+        member do
+          post :sign
+        end
+      end
+
+      # Document bundles (groups of archivos)
+      resources :document_bundles do
+        member do
+          post   :add_archivo
+          delete :remove_archivo
+        end
+      end
+
       # Users management
       resources :users, only: [:index, :show, :create, :update, :destroy] do
         member do

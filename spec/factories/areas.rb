@@ -4,5 +4,11 @@ FactoryBot.define do
     description { "Descripción del área" }
     area_type { :departamento }
     parent { nil }
+    is_default { false }
+
+    trait :default do
+      name { "Mesa de Partes" }
+      is_default { true }
+    end
   end
 end
