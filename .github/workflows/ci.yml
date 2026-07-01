@@ -128,13 +128,13 @@ jobs:
       - uses: docker/setup-buildx-action@v3
 
       - name: Build API image (no push)
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: .
           push:    false
 
       - name: Build frontend image (no push)
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: ./frontend
           push:    false
